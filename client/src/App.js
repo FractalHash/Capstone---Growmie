@@ -5,6 +5,8 @@ import Nav from "./components/Nav";
 import HomePage from "./pages/HomePage";
 import CalendarPage from "./pages/CalendarPage";
 
+import "./App.scss"
+
 function App() {
   return (
     <BrowserRouter>

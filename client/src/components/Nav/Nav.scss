@@ -1,0 +1,28 @@
+.nav {
+  display: flex;
+  justify-content: space-between;
+  background-color: lightgreen;
+  height: 3rem;
+  &__logo {
+    background-image: url(../../assets/leaf-icon.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 2rem;
+    height: 2rem;
+    margin-left: 3rem;
+    margin-top: 0.5rem;
+  }
+
+  &__link-container {
+    list-style: none;
+    display: flex;
+    margin-right: 3rem;
+    margin-top: 1rem;
+  }
+
+  &__link {
+    margin-left: 1rem;
+    text-decoration: none;
+    color: black;
+  }
+}

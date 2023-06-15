@@ -1,5 +1,7 @@
+@use "../src/styles/partials/variables" as *;
 * {
   box-sizing: border-box;
   margin: 0;
-  font-family: "TitilliumWeb";
+  font-family: "Quicksand", sans-serif;
+  color: #e1ad01;
 }

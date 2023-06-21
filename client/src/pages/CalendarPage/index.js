@@ -1,5 +1,4 @@
-import AddPlant from "../../components/AddPlant";
-import Calendar from "../../components/Calendar";
+import TestCal from "../../components/TestCal";
 
 import "./CalendarPage.scss"
 
@@ -8,8 +7,9 @@ const CalendarPage = () => {
 
   return (
     <main className="calendar-page">
-      <Calendar />
-      <AddPlant />
+      <section className="cal__container">
+        <TestCal />
+      </section>
     </main>
   )
 }

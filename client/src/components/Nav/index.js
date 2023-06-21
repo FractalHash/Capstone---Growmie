@@ -14,6 +14,11 @@ const Nav = () => {
             Calender
           </li>
         </NavLink> 
+        <NavLink to={"/plants"} className="nav__link">
+          <li className="nav__link">
+            Plants
+          </li>
+        </NavLink>
         <NavLink to={"/login"} className="nav__link">
           <li className="nav__link">
             Login

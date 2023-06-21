@@ -13,7 +13,7 @@ const Hero = () => {
         <h2 className="hero__subtitle">Let's grow together</h2>
       </div>  
       <div className="hero__button-container">
-        <Link to={"/calendar"}>
+        <Link to={"/plants"}>
           <button className="hero__button">Get started</button>
         </Link>
         <button className="hero__button">How to use</button>

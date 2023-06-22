@@ -16,7 +16,9 @@ const Hero = () => {
         <Link to={"/plants"}>
           <button className="hero__button">Get started</button>
         </Link>
-        <button className="hero__button">How to use</button>
+        <Link to={"/about"}>
+          <button className="hero__button">About</button>
+        </Link>
       </div>
     </section>
   )

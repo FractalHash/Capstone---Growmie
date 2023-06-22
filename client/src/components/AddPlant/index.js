@@ -83,7 +83,7 @@ const googleCalendarTimeFormat = (time) => {
         time: formattedTime,
       };
 
-      await axios.post("http://localhost:8000/calendar", plantData);
+      await axios.post("http://localhost:8008/calendar", plantData);
       alert("Plant Added!")
 
     } catch (error) {

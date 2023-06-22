@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSession, useSupabaseClient, useSessionContext } from '@supabase/auth-helpers-react';
+
+import './LoginPage.scss';
 
 const LoginPage = () => {
   const session = useSession();
   const supabase = useSupabaseClient();
   const { isLoading } = useSessionContext();
+    
+
 
   if (isLoading) {
     return <></>;
@@ -15,32 +19,36 @@ const LoginPage = () => {
       provider: 'google',
       options: {
         scopes: 'https://www.googleapis.com/auth/calendar',
-        redirectTo: 'http://localhost:3000/calendar'
+        redirectTo: 'http://localhost:3000/calendar',
       },
     });
-
     if (error) {
       alert('Error logging in to Google');
     }
+    
   };
 
   const signOut = async () => {
     await supabase.auth.signOut();
   };
-
-  console.log(session);
+ 
 
   return (
-    <section className="login-page">
+    <section className="login">
       {session ? (
-        <>
-          <h2>Welcome {session.user.user_metadata.name}</h2>
-          <button onClick={signOut}>Sign Out</button>
-        </>
+        <div className="login__container">
+          <div className='login__overlay'>
+            <h2>Welcome {session.user.user_metadata.name}</h2>
+            <button className='login__button' onClick={signOut}>Sign Out</button>
+          </div>
+            
+        </div>
       ) : (
-        <>
-          <button onClick={googleSignIn}>Sign in with Google</button>
-        </>
+          <div className="login__container">
+            <div className='login__overlay'>
+              <button className='login__button' onClick={googleSignIn}>Sign in with Google</button>
+            </div>  
+          </div>
       )}
     </section>
   );

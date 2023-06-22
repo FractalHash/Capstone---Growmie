@@ -1,0 +1,28 @@
+.login {
+  &__container {
+    width: 50%;
+    height: 25rem;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10rem;
+    border: 1px solid black;
+    border-radius: 10px;
+    background-image: url(../../assets/about_img.jpeg);
+    background-size: cover;
+    background-position: center;
+    position: absolute;
+    left: 15rem;
+  }
+
+  &__overlay {
+    background-color: rgba($color: #000000, $alpha: 0.4);
+    height: 100%;
+    padding: 1rem;
+    border-radius: 10px;
+  }
+
+  &__button {
+    margin-left: 10rem;
+    margin-right: 5rem;
+  }
+}

@@ -1,8 +1,31 @@
+import { useEffect, useState } from "react";
+import { useSession } from "@supabase/auth-helpers-react"
+import axios from "axios";
 
 
 import "./Plants.scss"
 
 const Plants = () => {
+  const [plants, setPlants] = useState([])
+  const session = useSession()
+
+useEffect(() => {
+  const fetchPlants = async () => {
+    try {
+      const response = await axios.get('http://localhost:8008/plants', {
+        params: {
+          email: session.user.email
+        }
+      });
+      setPlants(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  fetchPlants();
+}, []);
+  
 
   return (
     <section className="plants">

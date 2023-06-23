@@ -9,11 +9,13 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
 import FormLabel from '@mui/material/FormLabel';
-import  Button  from '../Button';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { useSession } from '@supabase/auth-helpers-react';
+
+import  Button  from '../Button';
 
 import './AddPlant.scss';
 
@@ -28,6 +30,8 @@ const AddPlant = () => {
   const [time, setTime] = useState('');
   const [helperText, setHelperText] = useState('');
   const navigate = useNavigate();
+  const session = useSession();
+
 
 const googleCalendarDateFormat = (selectedDate) => {
   if (!selectedDate) {
@@ -57,9 +61,10 @@ const googleCalendarTimeFormat = (time) => {
       !growingEnvironment ||
       !nutrients ||
       !time ||
-      !date
+      !date ||
+      !session
     ) {
-      setHelperText('Please fill in all fields');
+      setHelperText('Please fill in all fields and make sure you are logged in.');
       return;
     }
 
@@ -84,6 +89,7 @@ const googleCalendarTimeFormat = (time) => {
         nutrients: nutrients,
         date: formattedDate,
         time: formattedTime,
+        email: session.user.email
       };
 
       await axios.post("http://localhost:8008/calendar", plantData);
@@ -91,6 +97,7 @@ const googleCalendarTimeFormat = (time) => {
 
     } catch (error) {
       console.error("Error adding plant", error)
+      alert(`Sorry, Creating a schedule for ${name} failed. Please try again later.`)
     }
 
   };

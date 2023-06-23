@@ -1,4 +1,7 @@
-// const knex = require('knex')
+const knex = require('knex')
+const knexConfig = require('../knexfile');
+
+const db = knex(knexConfig);
 
 const { google } = require('googleapis')
 const { OAuth2 } = google.auth
@@ -35,8 +38,9 @@ const addPlant = async (req, res) => {
     growingEnvironment,
     nutrients,
     date,
-    time
-  } = req.body
+    time,
+    email
+  } = req.body;
 
   if (
     !name ||
@@ -45,17 +49,33 @@ const addPlant = async (req, res) => {
     !growingEnvironment ||
     !nutrients ||
     !date ||
-    !time
+    !time ||
+    !email
   ) {
-    return res
-      .status(400)
-      .send("Please fill out all fields before submission")
-  } else {
-    return res
-    .status(201).json(`Added plant ${name}`)
-    }
- 
-}
+    return res.status(400).send("Please fill out all fields before submission");
+  }
+
+  try {
+    await db('plants').insert({
+      name: name,
+      stage_of_life: stageOfLife,
+      growing_medium: growingMedium,
+      growing_environment: growingEnvironment,
+      nutrients: nutrients,
+      start_date: date,
+      event_time: time,
+      user_email: email,
+      harvest_date: "2023-10-10"
+    });
+
+    return res.status(201).json(`Added plant ${name}`);
+  } catch (error) {
+    console.error("Error adding plant:", error);
+    return res.status(500).send("Error adding plant");
+  }
+};
+
+
 
 const fetchCalendar = async (req, res) => {
   const { accessToken, refreshToken } = req.cookies;
@@ -97,54 +117,54 @@ const fetchCalendar = async (req, res) => {
 
 
 
-const eventStartTime = new Date()
-eventStartTime.setDate(eventStartTime.getDay() + 24)
+// const eventStartTime = new Date()
+// eventStartTime.setDate(eventStartTime.getDay() + 27)
 
-const eventEndTime = new Date()
-eventEndTime.setDate(eventEndTime.getDay() + 24)
-eventEndTime.setMinutes(eventEndTime.getMinutes() + 45)
+// const eventEndTime = new Date()
+// eventEndTime.setDate(eventEndTime.getDay() + 27)
+// eventEndTime.setMinutes(eventEndTime.getMinutes() + 45)
 
-const event = {
-  summary: 'Test growmie event',
-  location: '278A Queen St W, Toronto, ON M5V 2A1',
-  description: 'Testing the growmie scheduler',
-  start: {
-    dateTime: eventStartTime,
-    timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
-  },
-  end: {
-    dateTime: eventEndTime,
-    timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
-  },
-  colorId: 2,
-}
+// const event = {
+//   summary: 'Test growmie event',
+//   location: '278A Queen St W, Toronto, ON M5V 2A1',
+//   description: 'Testing the growmie scheduler',
+//   start: {
+//     dateTime: eventStartTime,
+//     timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
+//   },
+//   end: {
+//     dateTime: eventEndTime,
+//     timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
+//   },
+//   colorId: 2,
+// }
 
-calendar.freebusy.query(
-  {
-    resource: {
-      timeMin: eventStartTime,
-      timeMax: eventEndTime,
-      timeZone: 'America/Toronto',
-      items: [{ id: 'primary' }],
-    },
-  },
-  (err, res) => {
-  if (err) return console.error("Free Busy Query Error: ", err)
+// calendar.freebusy.query(
+//   {
+//     resource: {
+//       timeMin: eventStartTime,
+//       timeMax: eventEndTime,
+//       timeZone: 'America/Toronto',
+//       items: [{ id: 'primary' }],
+//     },
+//   },
+//   (err, res) => {
+//   if (err) return console.error("Free Busy Query Error: ", err)
   
-  const eventsArr = res.data.calendars.primary.busy
+//   const eventsArr = res.data.calendars.primary.busy
 
-  if (eventsArr.length === 0)
-    return calendar.events.insert(
-      { calendarId: 'primary', resource: event },
-      err => {
-        if (err) return console.error("Calendar event creation error: ", err)
+//   if (eventsArr.length === 0)
+//     return calendar.events.insert(
+//       { calendarId: 'primary', resource: event },
+//       err => {
+//         if (err) return console.error("Calendar event creation error: ", err)
       
-        return console.log("Calendar event created")
-      }
-    )
-      return console.log("Sorry I'm busy")
-  }
-)
+//         return console.log("Calendar event created")
+//       }
+//     )
+//       return console.log("Sorry I'm busy")
+//   }
+// )
 
 
 module.exports = {

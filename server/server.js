@@ -6,6 +6,7 @@ const axios = require('axios');
 const cookieParser = require("cookie-parser");
 const router = express.Router()
 const calendarRoute = require('./routes/calendar.js')
+const plantsRoute = require("./routes/plants.js")
 const PORT = process.env.PORT || 5050;
 
 
@@ -39,6 +40,7 @@ app.use(cors());
 app.use(cookieParser());
 
 app.use('/', calendarRoute);
+app.use('/', plantsRoute)
 
 
 app.get("/", (_req, res) => {

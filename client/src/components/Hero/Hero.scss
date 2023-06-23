@@ -25,18 +25,21 @@
   }
 
   &__button-container {
-    margin-left: 35%;
+    margin-left: 25%;
     margin-top: 2rem;
+    display: flex;
+  }
+
+  &__link {
+    width: 0rem;
+    height: 0rem;
   }
 
   &__button {
-    border-radius: 10px;
-    border-style: none;
-    width: 8rem;
-    height: 2rem;
-    margin-right: 2rem;
-    border: 1px solid black;
-    background-color: $yellow;
-    color: black;
+    margin-right: 10rem;
+
+    &--divider {
+      width: 18rem;
+    }
   }
 }

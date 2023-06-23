@@ -18,11 +18,11 @@ const App = () => {
   const session = useSession({});
 
   useEffect(() => {
-    if (session) {
-      document.cookie = `refreshToken=${session.refresh_token}; path=/;`
-      document.cookie = `accessToken=${session.access_token}; path=/;`
+    if (session?.provider_refresh_token) {
+      document.cookie = `refreshToken=${session.provider_refresh_token}; path=/;`
+      document.cookie = `accessToken=${session.provider_token}; path=/;`
     }
-  }, [session?.access_token, session?.refresh_token])
+  }, [session,session?.provider_token, session?.provider_refresh_token])
   
 
 
@@ -34,7 +34,6 @@ const App = () => {
         <Route path="/calendar" element={<CalendarPage />} />
         <Route path="/plants" element={<PlantsPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/about" element={<HowToUse />} />
       </Routes>
     </BrowserRouter>
   );

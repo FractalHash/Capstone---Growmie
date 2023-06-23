@@ -14,6 +14,7 @@ import {
   DragDropProvider,
   EditRecurrenceMenu,
   AllDayPanel,
+  DateNavigator
 } from '@devexpress/dx-react-scheduler-material-ui';
 import { connectProps } from '@devexpress/dx-react-core';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
@@ -448,6 +449,7 @@ export default class Demo extends React.PureComponent {
             showDeleteButton
           />
           <Toolbar />
+          <DateNavigator />
           <ViewSwitcher />
           <AppointmentForm
             overlayComponent={this.appointmentForm}

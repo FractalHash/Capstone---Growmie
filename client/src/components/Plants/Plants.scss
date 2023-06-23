@@ -1,0 +1,32 @@
+.plants {
+  background-color: white;
+  height: 55vh;
+
+  &__main-container {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__title {
+    font-size: 3rem;
+    margin-left: 2rem;
+    margin-top: 1rem;
+  }
+
+  &__container {
+    margin: 2rem;
+    border: 1px solid black;
+    height: 15rem;
+    width: 15rem;
+    border-radius: 10px;
+    text-align: center;
+  }
+
+  &__subtitle {
+    margin-top: 0.5rem;
+    border-bottom: 1px solid black;
+  }
+}
+p {
+  margin: 1rem;
+}

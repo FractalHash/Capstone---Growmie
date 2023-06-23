@@ -20,6 +20,11 @@ const LoginPage = () => {
       options: {
         scopes: 'https://www.googleapis.com/auth/calendar',
         redirectTo: 'http://localhost:3000/calendar',
+        queryParams: {
+          access_type: "offline",
+          prompt: "consent",
+          hd: "localhost:8008"
+        }
       },
     });
     if (error) {
@@ -31,7 +36,8 @@ const LoginPage = () => {
   const signOut = async () => {
     await supabase.auth.signOut();
   };
- 
+  
+  console.log(session)
 
   return (
     <section className="login">

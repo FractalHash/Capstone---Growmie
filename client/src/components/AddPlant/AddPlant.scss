@@ -3,20 +3,31 @@
 .add-plant {
   display: flex;
   flex-wrap: wrap;
-  margin-left: 1rem;
+  padding: 1rem;
+  border-bottom: 1px solid $yellow;
 
   &-container {
     margin-left: 1rem;
     margin-top: 1.5rem;
+    height: min-content;
   }
 
   &__title {
-    font-size: 2.5rem;
+    font-size: 3rem;
     margin: 1rem 0 0 1rem;
   }
 
   &__container--first {
     display: flex;
     flex-direction: column;
+  }
+
+  &__button-container {
+    margin-left: 17rem;
+    margin-top: -5.5rem;
+  }
+
+  &__helper-text {
+    font-size: 2rem;
   }
 }

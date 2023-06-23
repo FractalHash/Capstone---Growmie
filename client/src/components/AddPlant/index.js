@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom"
 import axios from "axios";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -8,7 +9,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
 import FormLabel from '@mui/material/FormLabel';
-import { Button } from '@mui/material';
+import  Button  from '../Button';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -26,6 +27,7 @@ const AddPlant = () => {
   const [date, setDate] = useState(null);
   const [time, setTime] = useState('');
   const [helperText, setHelperText] = useState('');
+  const navigate = useNavigate();
 
 const googleCalendarDateFormat = (selectedDate) => {
   if (!selectedDate) {
@@ -71,6 +73,7 @@ const googleCalendarTimeFormat = (time) => {
     console.log('Date:', formattedDate);
     console.log('Time: ', formattedTime);
     setHelperText('');
+    navigate("/calendar")
 
     try {
        const plantData = {
@@ -84,7 +87,7 @@ const googleCalendarTimeFormat = (time) => {
       };
 
       await axios.post("http://localhost:8008/calendar", plantData);
-      alert("Plant Added!")
+      alert(`${name} Added!`)
 
     } catch (error) {
       console.error("Error adding plant", error)
@@ -104,7 +107,7 @@ const googleCalendarTimeFormat = (time) => {
         autoComplete="off"
       >
         <div className="add-plant__container--first">
-          <h1 className="add-plant__title">Add a Plant</h1>
+          <h2 className="add-plant__title">Add Plant</h2>
 
           <TextField
             id="outlined-required"
@@ -128,9 +131,6 @@ const googleCalendarTimeFormat = (time) => {
               }}
             />
           </LocalizationProvider>
-          <Button className="add-plant__button" onClick={handleSubmit} variant="contained">
-            Generate Schedule
-          </Button>
         </div>
         <div className="add-plant-container">
           <FormControl>
@@ -204,8 +204,12 @@ const googleCalendarTimeFormat = (time) => {
             </RadioGroup>
           </FormControl>
         </div>
-
-        <FormHelperText>{helperText}</FormHelperText>
+        <div className='add-plant__button-container'>
+          <Button text="GENERATE SCHEDULE" onClick={handleSubmit} />  
+        </div>  
+        <FormHelperText className='add-plant__helper-text'>
+          {helperText}
+        </FormHelperText>
       </Box>
     </section>
   );

@@ -10,9 +10,8 @@ exports.up = function(knex) {
     table.string('growing_medium').notNullable();
     table.string('growing_environment').notNullable();
     table.string('nutrients').notNullable();
-    table.date('start_date').notNullable();
+    table.dateTime('start_date').notNullable();
     table.date('harvest_date').notNullable();
-    table.time('event_time').notNullable();
     table.string('user_email').notNullable().references('email').inTable('users').onDelete('CASCADE');
     table.timestamps(false, true);
   });
@@ -23,5 +22,5 @@ exports.up = function(knex) {
  * @returns { Promise<void> }
  */
 exports.down = function (knex) {
-  return knex.schema.dropTableIfExists('plants');
+  return knex.schema.dropTable('plants');
 };

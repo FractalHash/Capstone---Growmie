@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import { ViewState, EditingState } from '@devexpress/dx-react-scheduler';
@@ -17,7 +17,6 @@ import {
   DateNavigator,
   TodayButton
 } from '@devexpress/dx-react-scheduler-material-ui';
-import { connectProps } from '@devexpress/dx-react-core';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
@@ -29,7 +28,6 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 import Fab from '@mui/material/Fab';
 import IconButton from '@mui/material/IconButton';
-import AddIcon from '@mui/icons-material/Add';
 import TextField from '@mui/material/TextField';
 import LocationOn from '@mui/icons-material/LocationOn';
 import Notes from '@mui/icons-material/Notes';
@@ -37,7 +35,9 @@ import Close from '@mui/icons-material/Close';
 import CalendarToday from '@mui/icons-material/CalendarToday';
 import Create from '@mui/icons-material/Create';
 
-import { appointments } from '../../demo-data/appointments';
+import "./TestCal.scss"
+
+
 
 const PREFIX = 'Demo';
 // #FOLD_BLOCK
@@ -262,8 +262,8 @@ const AppointmentFormContainerBasic = (props) => {
 }
 
 /* eslint-disable-next-line react/no-multi-comp */
-const Demo = (props) => {
-  const [data, setData] = useState(appointments);
+const Demo = ({ calendarData }) => {
+  const [data, setData] = useState([]);
   const [confirmationVisible, setConfirmationVisible] = useState(false);
   const [editingFormVisible, setEditingFormVisible] = useState(false);
   const [deletedAppointmentId, setDeletedAppointmentId] = useState();
@@ -274,6 +274,10 @@ const Demo = (props) => {
   const currentDate = new Date();
   const startDayHour = 9;
   const endDayHour = 19;
+
+  useEffect(() => {
+    setData(calendarData)
+  },[calendarData])
 
   // const AppointmentForm = connectProps(AppointmentFormContainerBasic, () => {
   //   const [data, setData] = useState(appointments);
@@ -409,21 +413,6 @@ const Demo = (props) => {
           </Button>
         </DialogActions>
       </Dialog>
-
-      <StyledFab
-        color="secondary"
-        className={classes.addButton}
-        onClick={() => {
-          setEditingFormVisible(true)
-          onEditingAppointmentChange(undefined);
-          onAddedAppointmentChange({
-            startDate: new Date(currentDate).setHours(startDayHour),
-            endDate: new Date(currentDate).setHours(startDayHour + 1),
-          });
-        }}
-      >
-        <AddIcon />
-      </StyledFab>
     </Paper>
   );
 }

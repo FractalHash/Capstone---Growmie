@@ -10,66 +10,59 @@ const Plants = () => {
   const session = useSession()
 
 useEffect(() => {
-  const fetchPlants = async () => {
-    try {
+  fetchPlants();
+}, [session]);
+  
+const fetchPlants = async () => {
+  try {
+    if (session) {
       const response = await axios.get('http://localhost:8008/plants', {
         params: {
           email: session.user.email
         }
       });
       setPlants(response.data);
-    } catch (error) {
-      console.error(error);
     }
-  };
-
-  fetchPlants();
-}, []);
+  } catch (error) {
+    console.error(error);
+  }
+};
+  
+const deletePlant =  async (id) => {
+  try {
+    await axios
+      .delete('http://localhost:8008/plants',
+        { withCredentials: true, data: { plantId: id } }
+    );
+    fetchPlants()
+  } catch (error) {
+    console.error(error);
+  }
+}
   
 
-  return (
-    <section className="plants">
-      <h2 className="plants__title">Your Plants</h2>
-      {/* {plants.map((plant) => { */}
-        {/* return ( */}
-          {/* <div className="plants__container"> */}
-            {/* <h2>{plant.title}</h2> */}
-          {/* </div> */}
-        {/* ) */}
-      {/* })} */}
-      <div className="plants__main-container">
-        <div  className="plants__container">
-          <h3 className="plants__subtitle">Sour Diesel</h3>
-          <p>Start Date:</p>
-          <p>Harvest Date:</p>
-          <p>Grow Mediun:</p>
-          <p>Nutrients:</p>
-          <p>Grow Enviornmet:</p>
+return (
+  <section className="plants">
+    <h2 className="plants__title">Your Plants</h2>
+    <div className="plants__main-container">
+    {plants.map((plant) => {
+          const startDate = new Date(plant.start_date);
+          const harvestDate = new Date(plant.harvest_date);
+
+      return (
+        <div className="plants__container" key={plant.id}>
+          <h3 className="plants__subtitle">{plant.name}</h3>
+          <p>Start Date:<br/>{startDate.toLocaleDateString()}</p>
+          <p>Harvest Date:<br/>{harvestDate.toLocaleDateString()}</p>
+          <p>Grow Medium:<br/>{plant.growing_medium}</p>
+          <p>Nutrients:<br/>{plant.nutrients}</p>
+          <p>Grow Environment:<br />{plant.growing_environment}</p>
+          <button onClick={() => deletePlant(plant.id)}>
+            Delete
+          </button>
         </div>
-        <div  className="plants__container">
-          <h3 className="plants__subtitle">OG Kush</h3>
-          <p>Start Date:</p>
-          <p>Harvest Date:</p>
-          <p>Grow Mediun:</p>
-          <p>Nutrients:</p>
-          <p>Grow Enviornmet:</p>
-        </div>
-        <div  className="plants__container">
-          <h3 className="plants__subtitle">Gorilla Glue</h3>
-          <p>Start Date:</p>
-          <p>Harvest Date:</p>
-          <p>Grow Mediun:</p>
-          <p>Nutrients:</p>
-          <p>Grow Enviornmet:</p>
-        </div>
-        <div  className="plants__container">
-          <h3 className="plants__subtitle">Girl Scout Cookies</h3>
-          <p>Start Date:</p>
-          <p>Harvest Date:</p>
-          <p>Grow Mediun:</p>
-          <p>Nutrients:</p>
-          <p>Grow Enviornmet:</p>
-          </div>
+      );
+    })}
       </div>
     </section>
   )

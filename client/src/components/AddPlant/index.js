@@ -33,74 +33,69 @@ const AddPlant = () => {
   const session = useSession();
 
 
-const googleCalendarDateFormat = (selectedDate) => {
-  if (!selectedDate) {
-    return '';
+// const googleCalendarDateFormat = (selectedDate) => {
+//   if (!selectedDate) {
+//     return '';
+//   }
+//   console.log('selectedDate', selectedDate)
+//   const year = selectedDate.getFullYear();
+//   const month = selectedDate.getMonth() + 1;
+//   const day = selectedDate.getDate();
+//   return `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+// };
+
+// const googleCalendarTimeFormat = (time) => {
+//   if (!time) {
+//     return '';
+//   }
+//   const hours = String(time.getHours()).padStart(2, '0');
+//   const minutes = String(time.getMinutes()).padStart(2, '0');
+//   console.log('time', time)
+//   return `${hours}:${minutes}`;
+// };
+
+const handleSubmit = async (event) => {
+  event.preventDefault();
+  if (
+    !name ||
+    !stageOfLife ||
+    !growingMedium ||
+    !growingEnvironment ||
+    !nutrients ||
+    !time ||
+    !date ||
+    !session
+  ) {
+    setHelperText('Please fill in all fields and make sure you are logged in.');
+    return;
   }
-  const year = selectedDate.getFullYear();
-  const month = selectedDate.getMonth() + 1;
-  const day = selectedDate.getDate();
-  return `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-};
 
-const googleCalendarTimeFormat = (time) => {
-  if (!time) {
-    return '';
-  }
-  const hours = String(time.getHours()).padStart(2, '0');
-  const minutes = String(time.getMinutes()).padStart(2, '0');
-  return `${hours}:${minutes}`;
-};
+  date.setHours(time.getHours(), time.getMinutes(), 0)
+  console.log('startTime', date)
+  const startTime = date.toISOString().slice(0, 19).replace('T', ' ');
+  setHelperText('');
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    if (
-      !name ||
-      !stageOfLife ||
-      !growingMedium ||
-      !growingEnvironment ||
-      !nutrients ||
-      !time ||
-      !date ||
-      !session
-    ) {
-      setHelperText('Please fill in all fields and make sure you are logged in.');
-      return;
-    }
+  try {
+      const plantData = {
+      name: name,
+      stageOfLife: stageOfLife.toLowerCase(),
+      growingMedium: growingMedium.toLowerCase(),
+      growingEnvironment: growingEnvironment,
+      nutrients: nutrients,
+      startTime: startTime,
+      email: session.user.email
+    };
 
-    const formattedDate = googleCalendarDateFormat(date);
-    const formattedTime = googleCalendarTimeFormat(time);
-    console.log('Name:', name);
-    console.log('Stage of Life:', stageOfLife);
-    console.log('Growing Medium:', growingMedium);
-    console.log('Growing Environment:', growingEnvironment);
-    console.log('Nutrients:', nutrients);
-    console.log('Date:', formattedDate);
-    console.log('Time: ', formattedTime);
-    setHelperText('');
+    await axios.post("http://localhost:8008/plants", plantData, { withCredentials: true });
+    alert(`${name} Added!`)
     navigate("/calendar")
 
-    try {
-       const plantData = {
-        name: name,
-        stageOfLife: stageOfLife,
-        growingMedium: growingMedium,
-        growingEnvironment: growingEnvironment,
-        nutrients: nutrients,
-        date: formattedDate,
-        time: formattedTime,
-        email: session.user.email
-      };
+  } catch (error) {
+    console.error("Error adding plant", error)
+    alert(`Sorry, Creating a schedule for ${name} failed. Please try again later.`)
+  }
 
-      await axios.post("http://localhost:8008/calendar", plantData);
-      alert(`${name} Added!`)
-
-    } catch (error) {
-      console.error("Error adding plant", error)
-      alert(`Sorry, Creating a schedule for ${name} failed. Please try again later.`)
-    }
-
-  };
+};
 
   return (
     <section>
@@ -126,12 +121,14 @@ const googleCalendarTimeFormat = (time) => {
             <DatePicker
               views={['year', 'month', 'day']}
               value={date}
+              label="Start Date of Grow"
               onChange={(newDate) => {
                 const selectedDate = new Date(newDate);
                 setDate(selectedDate);
               }}
             />
             <TimePicker
+              label="Time of Grow Events"
               onChange={(newTime) => {
               const selectedTime = new Date(newTime);
               setTime(selectedTime);
@@ -139,84 +136,87 @@ const googleCalendarTimeFormat = (time) => {
             />
           </LocalizationProvider>
         </div>
-        <div className="add-plant-container">
-          <FormControl>
-            <FormLabel id="stage-of-life">Stage of Life</FormLabel>
-            <RadioGroup
-              aria-labelledby="stage-of-life"
-              name="stage-of-life"
-              value={stageOfLife}
-              onChange={(event) => setStageOfLife(event.target.value)}
-            >
-              <FormControlLabel
-                value="Seedling"
-                control={<Radio />}
-                label="Seedling"
-              />
-              <FormControlLabel
-                value="Vegetative"
-                control={<Radio />}
-                label="Vegetative"
-              />
-              <FormControlLabel
-                value="Flowering"
-                control={<Radio />}
-                label="Flowering"
-              />
-            </RadioGroup>
-          </FormControl>
-        </div>
-        <div className="add-plant-container">
-          <FormControl>
-            <FormLabel id="growing-medium">Growing Medium</FormLabel>
-            <RadioGroup
-              aria-labelledby="growing-medium"
-              name="growing-medium"
-              value={growingMedium}
-              onChange={(event) => setGrowingMedium(event.target.value)}
-            >
-              <FormControlLabel value="Soil" control={<Radio />} label="Soil" />
-              <FormControlLabel value="Soilless" control={<Radio />} label="Soilless" />
-              <FormControlLabel value="Hydroponic" control={<Radio />} label="Hydroponic" />
-            </RadioGroup>
-          </FormControl>
-        </div>
-        <div className="add-plant-container">
-          <FormControl>
-            <FormLabel id="growing-environment">Growing Environment</FormLabel>
-            <RadioGroup
-              aria-labelledby="growing-environment"
-              name="growing-environment"
-              value={growingEnvironment}
-              onChange={(event) => setGrowingEnvironment(event.target.value)}
-            >
-              <FormControlLabel value="Indoor" control={<Radio />} label="Indoor" />
-              <FormControlLabel value="Outdoor" control={<Radio />} label="Outdoor" />
-            </RadioGroup>
-          </FormControl>
-        </div>
-        <div className="add-plant-container">
-          <FormControl>
-            <FormLabel id="nutrients">Nutrients</FormLabel>
-            <RadioGroup
-              aria-labelledby="nutrients"
-              name="nutrients"
-              value={nutrients}
-              onChange={(event) => setNutrients(event.target.value)}
-            >
-              <FormControlLabel value="Liquid" control={<Radio />} label="Liquid" />
-              <FormControlLabel value="Granular" control={<Radio />} label="Granular" />
-              <FormControlLabel value="Fertilizer" control={<Radio />} label="Fertilizer" />
-              <FormControlLabel value="None" control={<Radio />} label="None" />
-            </RadioGroup>
-          </FormControl>
+        <div className='add-plant__radio-container'>
+          <div className="add-plant-container">
+            <FormControl>
+              <FormLabel id="stage-of-life">Stage of Life</FormLabel>
+              <RadioGroup
+                aria-labelledby="stage-of-life"
+                name="stage-of-life"
+                value={stageOfLife}
+                onChange={(event) => setStageOfLife(event.target.value)}
+              >
+                <FormControlLabel
+                  value="Seedling"
+                  control={<Radio />}
+                  label="Seedling"
+                />
+                <FormControlLabel
+                  value="Vegetative"
+                  control={<Radio />}
+                  label="Vegetative"
+                />
+                <FormControlLabel
+                  value="Flowering"
+                  control={<Radio />}
+                  label="Flowering"
+                />
+              </RadioGroup>
+            </FormControl>
+          </div>
+          <div className="add-plant-container">
+            <FormControl>
+              <FormLabel id="growing-medium">Growing Medium</FormLabel>
+              <RadioGroup
+                aria-labelledby="growing-medium"
+                name="growing-medium"
+                value={growingMedium}
+                onChange={(event) => setGrowingMedium(event.target.value)}
+              >
+                <FormControlLabel value="Soil" control={<Radio />} label="Soil" />
+                <FormControlLabel value="Soilless" control={<Radio />} label="Soilless" />
+                <FormControlLabel value="Hydroponic" control={<Radio />} label="Hydroponic" />
+              </RadioGroup>
+            </FormControl>
+          </div>
+          <div className="add-plant-container">
+            <FormControl>
+              <FormLabel id="growing-environment">Growing Environment</FormLabel>
+              <RadioGroup
+                aria-labelledby="growing-environment"
+                name="growing-environment"
+                value={growingEnvironment}
+                onChange={(event) => setGrowingEnvironment(event.target.value)}
+              >
+                <FormControlLabel value="Indoor" control={<Radio />} label="Indoor" />
+                <FormControlLabel value="Outdoor" control={<Radio />} label="Outdoor" />
+              </RadioGroup>
+            </FormControl>
+          </div>
+          <div className="add-plant-container">
+            <FormControl>
+              <FormLabel id="nutrients">Nutrients</FormLabel>
+              <RadioGroup
+                aria-labelledby="nutrients"
+                name="nutrients"
+                value={nutrients}
+                onChange={(event) => setNutrients(event.target.value)}
+              >
+                <FormControlLabel value="Liquid" control={<Radio />} label="Liquid" />
+                <FormControlLabel value="Granular" control={<Radio />} label="Granular" />
+                <FormControlLabel value="Fertilizer" control={<Radio />} label="Fertilizer" />
+                <FormControlLabel value="None" control={<Radio />} label="None" />
+              </RadioGroup>
+            </FormControl>
+          </div>
+  
+          <FormHelperText className='add-plant__helper-text'>
+            {helperText}
+          </FormHelperText>
         </div>
         <div className='add-plant__button-container'>
           <Button text="GENERATE SCHEDULE" onClick={handleSubmit} />  
-        </div>  
-        <FormHelperText className='add-plant__helper-text'>
-          {helperText}
-        </FormHelperText>
+        </div>
       </Box>
     </section>
   );

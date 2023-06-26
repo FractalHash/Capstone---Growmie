@@ -1,8 +1,7 @@
-import { NavLink } from "react-router-dom"
-import "./Nav.scss"
+import { NavLink } from "react-router-dom";
+import "./Nav.scss";
 
-const Nav = () => {
-
+const Nav = ({ onLoginClick }) => {
   return (
     <nav className="nav">
       <NavLink to={"/"}>
@@ -11,7 +10,7 @@ const Nav = () => {
       <ul className="nav__link-container">
         <NavLink to={"/calendar"} className="nav__link">
           <li className="nav__link">
-            Calender
+            Calendar
           </li>
         </NavLink> 
         <NavLink to={"/plants"} className="nav__link">
@@ -19,14 +18,12 @@ const Nav = () => {
             Plants
           </li>
         </NavLink>
-        <NavLink to={"/login"} className="nav__link">
-          <li className="nav__link">
-            Login
-          </li>
-        </NavLink>  
+        <li className="nav__link" onClick={onLoginClick}>
+          Login
+        </li>
       </ul>
     </nav>   
-  )
-}
+  );
+};
 
-export default Nav
+export default Nav;

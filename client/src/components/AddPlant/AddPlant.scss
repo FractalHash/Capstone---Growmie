@@ -1,4 +1,5 @@
-@use "../../../src/styles/partials/variables" as *;
+@use "../../styles/partials/variables" as *;
+@use "../../styles/partials/mixins" as *;
 
 .add-plant {
   display: flex;
@@ -6,10 +7,19 @@
   padding: 1rem;
   border-bottom: 1px solid $yellow;
 
+  @include tablet {
+    // flex-direction: column;
+    height: 70vh;
+  }
+
   &-container {
-    margin-left: 1rem;
+    margin-left: 25%;
     margin-top: 1.5rem;
     height: min-content;
+
+    @include tablet {
+      margin: 0;
+    }
   }
 
   &__title {
@@ -20,14 +30,27 @@
   &__container--first {
     display: flex;
     flex-direction: column;
+    width: min-content;
+    height: min-content;
   }
 
   &__button-container {
-    margin-left: 17rem;
-    margin-top: -5.5rem;
+    margin: 1rem 20% 0 20%;
   }
 
   &__helper-text {
     font-size: 2rem;
+  }
+
+  &__radio-container {
+    margin-left: 1rem;
+    display: flex;
+    flex-direction: column;
+
+    @include tablet {
+      flex-wrap: wrap;
+      flex-direction: row;
+      margin-right: 10%;
+    }
   }
 }

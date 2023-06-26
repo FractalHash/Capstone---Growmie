@@ -16,7 +16,6 @@ oAuth2Client.setCredentials({
   refresh_token: process.env.refresh_token
 })
 
-
 const calendar = google.calendar({
   version: 'v3',
   auth: oAuth2Client,
@@ -24,62 +23,8 @@ const calendar = google.calendar({
 
 const timeMin = '2023-06-22T00:00:00Z'
 
-
-
-
-
-
-
-const addPlant = async (req, res) => {
-  const {
-    name,
-    stageOfLife,
-    growingMedium,
-    growingEnvironment,
-    nutrients,
-    date,
-    time,
-    email
-  } = req.body;
-
-  if (
-    !name ||
-    !stageOfLife ||
-    !growingMedium ||
-    !growingEnvironment ||
-    !nutrients ||
-    !date ||
-    !time ||
-    !email
-  ) {
-    return res.status(400).send("Please fill out all fields before submission");
-  }
-
-  try {
-    await db('plants').insert({
-      name: name,
-      stage_of_life: stageOfLife,
-      growing_medium: growingMedium,
-      growing_environment: growingEnvironment,
-      nutrients: nutrients,
-      start_date: date,
-      event_time: time,
-      user_email: email,
-      harvest_date: "2023-10-10"
-    });
-
-    return res.status(201).json(`Added plant ${name}`);
-  } catch (error) {
-    console.error("Error adding plant:", error);
-    return res.status(500).send("Error adding plant");
-  }
-};
-
-
-
 const fetchCalendar = async (req, res) => {
   const { accessToken, refreshToken } = req.cookies;
-  console.log(req.cookies)
 
   oAuth2Client.setCredentials({
     access_token: accessToken,
@@ -97,16 +42,17 @@ const fetchCalendar = async (req, res) => {
 
 
     const events = response.data.items;
+    console.log(events)
 
-    if (events.length) {
-      console.log('Upcoming events:');
-      events.forEach((event) => {
-        const start = event.start.dateTime || event.start.date;
-        console.log(`${start} - ${event.summary}`);
-      });
-    } else {
-      console.log('No upcoming events found.');
-    }
+    // if (events.length) {
+    //   console.log('Upcoming events:');
+    //   events.forEach((event) => {
+    //     const start = event.start.dateTime || event.start.date;
+    //     console.log(`${start} - ${event.summary}`);
+    //   });
+    // } else {
+    //   console.log('No upcoming events found.');
+    // }
 
     return res.status(200).json(events);
   } catch (error) {
@@ -168,6 +114,5 @@ const fetchCalendar = async (req, res) => {
 
 
 module.exports = {
-  addPlant,
   fetchCalendar
 };

@@ -5,6 +5,9 @@
   &__main-container {
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
+    height: min-content;
+    background-color: white;
   }
 
   &__title {
@@ -16,7 +19,7 @@
   &__container {
     margin: 2rem;
     border: 1px solid black;
-    height: 15rem;
+    height: min-content;
     width: 15rem;
     border-radius: 10px;
     text-align: center;

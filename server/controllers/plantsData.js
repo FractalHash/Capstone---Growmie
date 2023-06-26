@@ -1,11 +1,14 @@
 const knex = require('knex')
 const knexConfig = require('../knexfile');
-const { scheduleMaker } = require("../utils")
+const { scheduleMaker, createEvents } = require("../utils")
+const { batchFetchImplementation } = require('@jrmdayn/googleapis-batcher')
 
 const db = knex(knexConfig);
 
 const { google } = require('googleapis');
 const { OAuth2 } = google.auth
+
+const fetchImpl = batchFetchImplementation()
 
 const oAuth2Client = new OAuth2(
   process.env.CLIENT_ID,
@@ -20,6 +23,7 @@ oAuth2Client.setCredentials({
 const calendar = google.calendar({
   version: 'v3',
   auth: oAuth2Client,
+  fetchImplementation: fetchImpl
 })
 
 const fetchPlants = async (req, res) => {
@@ -45,7 +49,8 @@ const addPlant = async (req, res) => {
     growingEnvironment,
     nutrients,
     startTime,
-    email
+    email,
+    color
   } = req.body;
   const { accessToken, refreshToken } = req.cookies;
   console.log('accessToken', accessToken)
@@ -61,12 +66,19 @@ const addPlant = async (req, res) => {
     !startTime ||
     !email ||
     !accessToken ||
-    !refreshToken
+    !refreshToken ||
+    !color
   ) {
     return res.status(400).send("Please fill out all fields before submission");
   }
 
   try {
+    const schedule = scheduleMaker({ stageOfLife, growingMedium })
+    console.log('schedule', schedule)
+    const events = createEvents(schedule, { stageOfLife, startTime, name, growingMedium, color })
+    const date = events[events.length - 1].start.dateTime
+    const harvestDate = new Date(date).toISOString().slice(0, 19).replace('T', ' ');
+    console.log('events', events)
     const plantRes = await db('plants').insert({
       name: name,
       stage_of_life: stageOfLife,
@@ -75,27 +87,28 @@ const addPlant = async (req, res) => {
       nutrients: nutrients,
       start_date: startTime,
       user_email: email,
-      harvest_date: "2023-10-10"
-    }, ['id']);
+      harvest_date: harvestDate,
+      color: color
+    }, 'id');
     const plantId = plantRes[0]
-    const schedule = scheduleMaker({ stageOfLife, growingMedium })
-    console.log(schedule)
 
     oAuth2Client.setCredentials({
       access_token: accessToken,
       refresh_token: refreshToken,
     });
 
-    // calendar.events.insert(
-    //   { calendarId: 'primary', resource: event },
-    //   async (err, event) => {
-    //     if (err) return console.error("Calendar event creation error: ", err)
-        
-    //     await db("events").insert({ plant_id: plantId, google_id: event.data.id })
-    //     return console.log("Calendar event created")
-    //   }
-    // )
-
+    const results = await Promise.all(events.map((event) => {
+      return calendar.events.insert(
+        { calendarId: 'primary', resource: event },
+        async (err, eventRes) => {
+          if (err) return console.error("Calendar event creation error: ", err)
+          
+          await db("events").insert({ plant_id: plantId, google_id: eventRes.data.id })
+          return console.log("Calendar event created")
+        }
+      )
+    }))
+    console.log('results', results);
 
     return res.status(201).json(`Added plant ${name}`);
   } catch (error) {
@@ -118,8 +131,8 @@ const deletePlant = async (req, res) => {
       access_token: accessToken,
       refresh_token: refreshToken,
     });
-
-    events.forEach((event) => {
+    
+    const results = await Promise.all(events.map(async (event) => {
       const id = event.google_id
       calendar.events.delete(
         { calendarId: "primary", eventId: id },
@@ -129,7 +142,8 @@ const deletePlant = async (req, res) => {
           return console.log("Calendar event was deleted!", id)
         }
       )
-    })
+    }))
+    console.log('results', results);
 
     await db("plants").where({ id: plantId }).del()
 

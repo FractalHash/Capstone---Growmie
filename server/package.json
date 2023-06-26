@@ -10,6 +10,7 @@
   "author": "Angus Macdonell",
   "license": "ISC",
   "dependencies": {
+    "@jrmdayn/googleapis-batcher": "^0.5.0",
     "axios": "^1.4.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
@@ -19,6 +20,7 @@
     "googleapis": "^118.0.0",
     "knex": "^2.4.2",
     "mysql": "^2.18.1",
+    "p-queue": "^7.3.4",
     "sqlite3": "^5.1.6"
   }
 }

@@ -19,8 +19,9 @@ const CalendarPage = () => {
       const startDate = event.start.dateTime
       const endDate = event.end.dateTime
       const id = event.id
+      const colorId = event.colorId
 
-      return { title, startDate, endDate, id }
+      return { title, startDate, endDate, id, colorId }
     })
     return calendarData;
   }

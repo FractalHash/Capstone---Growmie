@@ -493,10 +493,32 @@ const scheduleMaker = ({ stageOfLife, growingMedium }) => {
   return schedule
 }
 
-const createEvent = ({ startTime, name, stageOfLife, growingMedium, eventType }) => {
+const createEvents = (schedule, { stageOfLife, startTime, name, growingMedium, color }) => {
+  const events = schedule.map((eventType, index) => {
+    console.log('eventType', eventType)
+    if (eventType) {
+      return createEvent({
+        startTime,
+        name,
+        stageOfLife,
+        growingMedium,
+        eventType,
+        color,
+        startTimeIncrement: index,
+      })
+    }
+  })
+  console.log('events 2', events)
+
+  return events.filter((event) => !!event)
+}
+
+const createEvent = ({ startTime, startTimeIncrement, name, stageOfLife, growingMedium, eventType, color }) => {
   const time = startTime.split(/[- :]/);
   const eventStartTime = new Date(Date.UTC(time[0], time[1] - 1, time[2], time[3], time[4], time[5]));
+  eventStartTime.setDate(eventStartTime.getDate() + startTimeIncrement)
   const eventEndTime = new Date(Date.UTC(time[0], time[1] - 1, time[2], time[3], time[4], time[5]));
+  eventEndTime.setDate(eventEndTime.getDate() + startTimeIncrement)
   eventEndTime.setHours(eventEndTime.getHours() + 1)
 
   const event = {
@@ -510,12 +532,14 @@ const createEvent = ({ startTime, name, stageOfLife, growingMedium, eventType })
       dateTime: eventEndTime,
       timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
     },
-    colorId: 2,
+    colorId: color,
   }
+  return event
 }
 
 module.exports = {
-  scheduleMaker
+  scheduleMaker,
+  createEvents
 }
 
 

@@ -37,6 +37,14 @@ import Create from '@mui/icons-material/Create';
 
 import "./TestCal.scss"
 
+const colors = {
+  2: '#33b679',
+  6: "#f5511d",
+  7: "#039be5",
+  3: "#8e24aa",
+  1: "#7986cb" 
+}
+
 
 
 const PREFIX = 'Demo';
@@ -352,6 +360,7 @@ const Demo = ({ calendarData }) => {
     setData(data)
     setAddedAppointment({})
   }
+  console.log('data', data)
 
   return (
     <Paper>
@@ -375,11 +384,27 @@ const Demo = ({ calendarData }) => {
           startDayHour={startDayHour}
           endDayHour={endDayHour}/>
         <AllDayPanel />
-        <Appointments />
+        <Appointments
+          appointmentComponent={({
+              children, style, ...restProps
+            }) => {
+              console.log('restProps', restProps)
+              return <Appointments.Appointment
+                {...restProps}
+                style={{
+                  ...style,
+                  backgroundColor: colors[restProps.data.colorId],
+                  borderRadius: '8px',
+                }}
+              >
+                {children}
+              </Appointments.Appointment>
+            }}
+        />
         <AppointmentTooltip
-          showOpenButton
+          // showOpenButton
           showCloseButton
-          showDeleteButton
+          // showDeleteButton
         />
         <Toolbar />
         <DateNavigator />
@@ -405,12 +430,12 @@ const Demo = ({ calendarData }) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={toggleConfirmationVisible} color="primary" variant="outlined">
+          {/* <Button onClick={toggleConfirmationVisible} color="primary" variant="outlined">
             Cancel
-          </Button>
-          <Button onClick={commitDeletedAppointment} color="secondary" variant="outlined">
+          </Button> */}
+          {/* <Button onClick={commitDeletedAppointment} color="secondary" variant="outlined">
             Delete
-          </Button>
+          </Button> */}
         </DialogActions>
       </Dialog>
     </Paper>

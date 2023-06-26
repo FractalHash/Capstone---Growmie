@@ -19,6 +19,14 @@ import  Button  from '../Button';
 
 import './AddPlant.scss';
 
+const colors = {
+  2: '#33b679',
+  6: "#f5511d",
+  7: "#039be5",
+  3: "#8e24aa",
+  1: "#7986cb" 
+}
+
 
 const AddPlant = () => {
   const [name, setName] = useState('');
@@ -29,6 +37,7 @@ const AddPlant = () => {
   const [date, setDate] = useState(null);
   const [time, setTime] = useState('');
   const [helperText, setHelperText] = useState('');
+  const [color, setColor] = useState("")
   const navigate = useNavigate();
   const session = useSession();
 
@@ -64,7 +73,8 @@ const handleSubmit = async (event) => {
     !nutrients ||
     !time ||
     !date ||
-    !session
+    !session ||
+    !color
   ) {
     setHelperText('Please fill in all fields and make sure you are logged in.');
     return;
@@ -83,10 +93,12 @@ const handleSubmit = async (event) => {
       growingEnvironment: growingEnvironment,
       nutrients: nutrients,
       startTime: startTime,
-      email: session.user.email
+      email: session.user.email,
+      color: color
     };
 
-    await axios.post("http://localhost:8008/plants", plantData, { withCredentials: true });
+    const result = await axios.post("http://localhost:8008/plants", plantData, { withCredentials: true });
+    console.log('result', result);
     alert(`${name} Added!`)
     navigate("/calendar")
 
@@ -209,7 +221,23 @@ const handleSubmit = async (event) => {
               </RadioGroup>
             </FormControl>
           </div>
-  
+          <div className="add-plant-container">
+            <FormControl>
+              <FormLabel id="color">Colour</FormLabel>
+              <RadioGroup
+                aria-labelledby="color"
+                name="color"
+                value={color}
+                onChange={(event) => setColor(event.target.value)}
+              >
+                <FormControlLabel value="2" control={<Radio />} label={<div className="add-plant__color" style={{ backgroundColor: colors[2] }}></div>} />
+                <FormControlLabel value="6" control={<Radio />} label={<div className="add-plant__color" style={{ backgroundColor: colors[6] }}></div>} />
+                <FormControlLabel value="7" control={<Radio />} label={<div className="add-plant__color" style={{ backgroundColor: colors[7] }}></div>} />
+                <FormControlLabel value="3" control={<Radio />} label={<div className="add-plant__color" style={{ backgroundColor: colors[3] }}></div>} />
+                 <FormControlLabel value="1" control={<Radio />} label={<div className="add-plant__color" style={{ backgroundColor: colors[1] }}></div>} />
+              </RadioGroup>
+            </FormControl>
+          </div>
           <FormHelperText className='add-plant__helper-text'>
             {helperText}
           </FormHelperText>

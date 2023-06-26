@@ -12,6 +12,7 @@ exports.up = function(knex) {
     table.string('nutrients').notNullable();
     table.dateTime('start_date').notNullable();
     table.date('harvest_date').notNullable();
+    table.string('color').notNullable();
     table.string('user_email').notNullable().references('email').inTable('users').onDelete('CASCADE');
     table.timestamps(false, true);
   });

@@ -147,6 +147,9 @@ const handleSubmit = async (event) => {
               }}
             />
           </LocalizationProvider>
+          <FormHelperText className='add-plant__helper-text'>
+            {helperText}
+          </FormHelperText>
         </div>
         <div className='add-plant__radio-container'>
           <div className="add-plant-container">
@@ -223,7 +226,7 @@ const handleSubmit = async (event) => {
           </div>
           <div className="add-plant-container">
             <FormControl>
-              <FormLabel id="color">Colour</FormLabel>
+              <FormLabel id="color">Colour of Events</FormLabel>
               <RadioGroup
                 aria-labelledby="color"
                 name="color"
@@ -238,9 +241,6 @@ const handleSubmit = async (event) => {
               </RadioGroup>
             </FormControl>
           </div>
-          <FormHelperText className='add-plant__helper-text'>
-            {helperText}
-          </FormHelperText>
         </div>
         <div className='add-plant__button-container'>
           <Button text="GENERATE SCHEDULE" onClick={handleSubmit} />  

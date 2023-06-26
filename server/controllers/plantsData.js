@@ -75,10 +75,11 @@ const addPlant = async (req, res) => {
   try {
     const schedule = scheduleMaker({ stageOfLife, growingMedium })
     console.log('schedule', schedule)
+    console.log("schedule length", schedule.length);
     const events = createEvents(schedule, { stageOfLife, startTime, name, growingMedium, color })
     const date = events[events.length - 1].start.dateTime
     const harvestDate = new Date(date).toISOString().slice(0, 19).replace('T', ' ');
-    console.log('events', events)
+    // console.log('events', events)
     const plantRes = await db('plants').insert({
       name: name,
       stage_of_life: stageOfLife,
@@ -97,18 +98,18 @@ const addPlant = async (req, res) => {
       refresh_token: refreshToken,
     });
 
-    const results = await Promise.all(events.map((event) => {
-      return calendar.events.insert(
-        { calendarId: 'primary', resource: event },
-        async (err, eventRes) => {
-          if (err) return console.error("Calendar event creation error: ", err)
+    // const results = await Promise.all(events.map((event) => {
+    //   return calendar.events.insert(
+    //     { calendarId: 'primary', resource: event },
+    //     async (err, eventRes) => {
+    //       if (err) return console.error("Calendar event creation error: ", err)
           
-          await db("events").insert({ plant_id: plantId, google_id: eventRes.data.id })
-          return console.log("Calendar event created")
-        }
-      )
-    }))
-    console.log('results', results);
+    //       await db("events").insert({ plant_id: plantId, google_id: eventRes.data.id })
+    //       return console.log("Calendar event created")
+    //     }
+    //   )
+    // }))
+    // console.log('results', results);
 
     return res.status(201).json(`Added plant ${name}`);
   } catch (error) {

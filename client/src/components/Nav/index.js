@@ -18,7 +18,7 @@ const Nav = ({ onLoginClick }) => {
             Plants
           </li>
         </NavLink>
-        <li className="nav__link" onClick={onLoginClick}>
+        <li className="nav__link--login" onClick={onLoginClick}>
           Login
         </li>
       </ul>

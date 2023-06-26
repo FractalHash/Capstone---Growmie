@@ -15,10 +15,10 @@ const Hero = ({ openModal }) => {
           <Button className="hero__button" text="Get Started" />
         </Link>
         <div className="hero__button--divider" />
-        <Button className="hero__button" text="Learn More" onClick={openModal} />
+          <Button className="hero__button" text="Learn More" onClick={openModal} />
       </div>
     </section>
-  );
+);
 };
 
 export default Hero;

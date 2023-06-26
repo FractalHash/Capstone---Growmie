@@ -20,8 +20,9 @@ const CalendarPage = () => {
       const endDate = event.end.dateTime
       const id = event.id
       const colorId = event.colorId
+      const description = event.description
 
-      return { title, startDate, endDate, id, colorId }
+      return { title, startDate, endDate, id, colorId, description }
     })
     return calendarData;
   }
@@ -34,11 +35,12 @@ const CalendarPage = () => {
           .get(`http://localhost:8008/calendar?userid=${userId}`, { withCredentials: true })
         setCalendar(formatData(response.data))
       } catch (error) {
-        console.error("Error retrieving calendar: ", error )
+        console.error("Error retrieving calendar: ", error)
+        setCalendar([])
       }
     }
     fetchCalendar();
-  },[])
+  }, [session, userId])
 
 
   return (

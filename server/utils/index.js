@@ -495,7 +495,7 @@ const scheduleMaker = ({ stageOfLife, growingMedium }) => {
 
 const createEvents = (schedule, { stageOfLife, startTime, name, growingMedium, color }) => {
   const events = schedule.map((eventType, index) => {
-    console.log('eventType', eventType)
+    // console.log('eventType', eventType)
     if (eventType) {
       return createEvent({
         startTime,
@@ -508,7 +508,7 @@ const createEvents = (schedule, { stageOfLife, startTime, name, growingMedium, c
       })
     }
   })
-  console.log('events 2', events)
+  // console.log('events 2', events)
 
   return events.filter((event) => !!event)
 }
@@ -523,7 +523,7 @@ const createEvent = ({ startTime, startTimeIncrement, name, stageOfLife, growing
 
   const event = {
     summary: `Growmie: ${eventType} ${name}`,
-    description: `Today you need to ${eventType} your plant ${name}, that is in ${stageOfLife} stage and is growing in ${growingMedium}.`,
+    description: `Today you need to ${eventType} your plant ${name}, that has been tracked since ${stageOfLife} stage and is growing in ${growingMedium}.`,
     start: {
       dateTime: eventStartTime,
       timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone

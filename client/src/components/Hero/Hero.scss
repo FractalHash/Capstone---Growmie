@@ -5,7 +5,7 @@
   background-image: url(../../assets/cannabis-hero.jpeg);
   background-size: cover;
   background-repeat: no-repeat;
-  height: 94.9vh;
+  height: 94vh;
   background-position: 50%;
 
   &__title {
@@ -19,7 +19,7 @@
     }
 
     @include desktop {
-      font-size: 8.5rem;
+      font-size: 7rem;
       margin-bottom: 3rem;
     }
   }
@@ -34,7 +34,7 @@
     }
 
     @include desktop {
-      font-size: 5rem;
+      font-size: 4rem;
     }
   }
 
@@ -56,6 +56,7 @@
 
     @include desktop {
       margin: 5rem 30% 0 30%;
+      justify-content: space-between;
     }
   }
 

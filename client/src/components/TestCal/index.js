@@ -15,7 +15,8 @@ import {
   EditRecurrenceMenu,
   AllDayPanel,
   DateNavigator,
-  TodayButton
+  TodayButton,
+  CurrentTimeIndicator
 } from '@devexpress/dx-react-scheduler-material-ui';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -36,6 +37,49 @@ import CalendarToday from '@mui/icons-material/CalendarToday';
 import Create from '@mui/icons-material/Create';
 
 import "./TestCal.scss"
+// import { makeStyles } from "@mui/styles";
+
+// const useStyles = makeStyles(theme => ({
+//   line: {
+//     height: "2px",
+//     width: "100%",
+//     transform: "translate(0, -1px)"
+//   },
+//   circle: {
+//     width: theme.spacing(1.5),
+//     height: theme.spacing(1.5),
+//     borderRadius: "50%",
+//     transform: "translate(-50%, -50%)"
+//   },
+//   nowIndicator: {
+//     position: "absolute",
+//     left: 0,
+//     top: ({ top }) => top,
+//     background: theme.palette.secondary.main,
+//     zIndex: 1
+//   }
+// }));
+
+const StyledDivIndicator = styled('div')(({ theme }) => ({
+  [`& .line`]: {
+    height: "2px",
+    width: "100%",
+    transform: "translate(0, -1px)"
+  },
+  ['& .circle']: {
+    width: theme.spacing(1.5),
+    height: theme.spacing(1.5),
+    borderRadius: "50%",
+    transform: "translate(-50%, -50%)"
+  },
+  ['& .nowIndicator']: {
+    position: "absolute",
+    left: 0,
+    top: ({ top }) => top,
+    background: theme.palette.secondary.main,
+    zIndex: 1
+  }
+}))
 
 const colors = {
   2: '#33b679',
@@ -280,8 +324,8 @@ const Demo = ({ calendarData }) => {
   const [addedAppointment, setAddedAppointment] = useState({});
   const [isNewAppointment, setIsNewAppointment] = useState(false)
   const currentDate = new Date();
-  const startDayHour = 9;
-  const endDayHour = 19;
+  const startDayHour = 0;
+  const endDayHour = 24;
 
   useEffect(() => {
     setData(calendarData)
@@ -360,13 +404,29 @@ const Demo = ({ calendarData }) => {
     setData(data)
     setAddedAppointment({})
   }
+  const indicatorRef = React.useRef(null);
+  const Indicator = ({ top, ...restProps }) => {
+    return (
+      <StyledDivIndicator {...restProps} ref={indicatorRef}>
+        <div className="nowIndicator circle" />
+        <div className="nowIndicator line" />
+      </StyledDivIndicator>
+    );
+  };
+  
+  useEffect(() => {
+    console.log('indicatorRef', indicatorRef.current)
+    if (indicatorRef) {
+      indicatorRef.current.scrollIntoView({ block: "center" }); 
+    }
+  }, [indicatorRef]);
   console.log('data', data)
 
   return (
     <Paper>
       <Scheduler
         data={data}
-        height={660}
+        height={800}
       >
         <ViewState
           defaultCurrentDate={currentDate}
@@ -405,7 +465,13 @@ const Demo = ({ calendarData }) => {
           // showOpenButton
           showCloseButton
           // showDeleteButton
+          contentComponent={(props) => (
+            <AppointmentTooltip.Content {...props}>
+              <div className='cal__description'>{props.appointmentData.description}</div>
+            </AppointmentTooltip.Content>
+          )}
         />
+        <CurrentTimeIndicator indicatorComponent={Indicator} />
         <Toolbar />
         <DateNavigator />
         <TodayButton />

@@ -35,8 +35,28 @@ import Notes from '@mui/icons-material/Notes';
 import Close from '@mui/icons-material/Close';
 import CalendarToday from '@mui/icons-material/CalendarToday';
 import Create from '@mui/icons-material/Create';
+import WaterDropIcon from '@mui/icons-material/WaterDrop';
+import LunchDiningIcon from '@mui/icons-material/LunchDining';
+import GrassIcon from '@mui/icons-material/Grass';
+import AgricultureIcon from '@mui/icons-material/Agriculture';
+import SpeedIcon from '@mui/icons-material/Speed';
+import ContentCutIcon from '@mui/icons-material/ContentCut';
+import { blue, pink, orange, green, purple, red } from '@mui/material/colors';
 
 import "./TestCal.scss"
+
+
+const IconComp = ({ title, fontSize = "large", paddingTop = "0.5rem" }) => {
+  let Icon = () => <div></div>
+  if (title.includes("Water")) Icon = () => <WaterDropIcon fontSize={fontSize} sx={{ color: blue[200], margin: `${paddingTop} 0 0 0.85rem` }} />
+  if (title.includes("Feed")) Icon = () => <LunchDiningIcon fontSize={fontSize} sx={{ color: pink[200], margin: `${paddingTop} 0 0 0.85rem` }} />
+  if (title.includes("Defoliate")) Icon = () => <ContentCutIcon fontSize={fontSize} sx={{ color: orange[200], margin: `${paddingTop} 0 0 0.85rem` }} />
+  if (title.includes("Transplant")) Icon = () => <GrassIcon fontSize={fontSize} sx={{ color: green[200], margin: `${paddingTop}0 0 0.85rem` }} />
+  if (title.includes("CheckPH")) Icon = () => <SpeedIcon fontSize={fontSize} sx={{ color: purple[200], margin: `${paddingTop} 0 0 0.85rem` }} />
+  if (title.includes("Harvest")) Icon = () => <AgricultureIcon fontSize={fontSize} sx={{ color: red[200], margin: `${paddingTop} 0 0 0.85rem` }} />
+  
+  return <Icon />
+}
 // import { makeStyles } from "@mui/styles";
 
 // const useStyles = makeStyles(theme => ({
@@ -329,7 +349,35 @@ const Demo = ({ calendarData }) => {
 
   useEffect(() => {
     setData(calendarData)
-  },[calendarData])
+  }, [calendarData])
+  
+  const HeaderComponent = (props) => {
+    console.log('debug', props)
+
+    return (
+      <AppointmentTooltip.Header {...props} style={{ justifyContent: 'space-between'}}>
+        <IconComp title={props.appointmentData.title} />
+      </AppointmentTooltip.Header>
+    )
+  }
+
+  const AppointmentComponent = ({ children, style, ...restProps }) => {
+    // console.log('restProps', restProps)
+    return <Appointments.Appointment
+      {...restProps}
+      style={{
+        ...style,
+        backgroundColor: colors[restProps.data.colorId],
+        borderRadius: '8px',
+        display: 'flex',
+        paddingTop: '0.5rem'
+        // alignItems: 'baseline'
+      }}
+    >
+      <IconComp title={restProps.data.title} fontSize="small" paddingTop="0" />
+      {children}
+    </Appointments.Appointment>
+  }
 
   // const AppointmentForm = connectProps(AppointmentFormContainerBasic, () => {
   //   const [data, setData] = useState(appointments);
@@ -445,31 +493,19 @@ const Demo = ({ calendarData }) => {
           endDayHour={endDayHour}/>
         <AllDayPanel />
         <Appointments
-          appointmentComponent={({
-              children, style, ...restProps
-            }) => {
-              console.log('restProps', restProps)
-              return <Appointments.Appointment
-                {...restProps}
-                style={{
-                  ...style,
-                  backgroundColor: colors[restProps.data.colorId],
-                  borderRadius: '8px',
-                }}
-              >
-                {children}
-              </Appointments.Appointment>
-            }}
+          appointmentComponent={AppointmentComponent}
         />
         <AppointmentTooltip
           // showOpenButton
           showCloseButton
           // showDeleteButton
-          contentComponent={(props) => (
-            <AppointmentTooltip.Content {...props}>
+          headerComponent={HeaderComponent}
+          contentComponent={(props) => {
+            console.log(props)
+            return <AppointmentTooltip.Content {...props}>
               <div className='cal__description'>{props.appointmentData.description}</div>
             </AppointmentTooltip.Content>
-          )}
+          }}
         />
         <CurrentTimeIndicator indicatorComponent={Indicator} />
         <Toolbar />

@@ -7,7 +7,6 @@ import HomePage from "./pages/HomePage";
 import CalendarPage from "./pages/CalendarPage";
 import LoginPage from "./pages/LoginPage";
 import PlantsPage from "./pages/PlantsPage";
-import HowToUse from "./components/HowToUse";
 
 import "./App.scss";
 

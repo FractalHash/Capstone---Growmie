@@ -35,7 +35,7 @@ const fetchCalendar = async (req, res) => {
     const response = await calendar.events.list({
       calendarId: 'primary',
       timeMin: timeMin,
-      maxResults: 100,
+      maxResults: 500,
       singleEvents: true,
       orderBy: 'startTime',
     });

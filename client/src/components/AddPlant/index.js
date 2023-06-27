@@ -110,12 +110,12 @@ const handleSubmit = async (event) => {
 };
 
   return (
-    <section>
       <Box
         className="add-plant"
         component="form"
         sx={{
-          '& .MuiTextField-root': { m: 1, width: '25ch' },
+          '& .MuiTextField-root': {         width: 500,
+        maxWidth: '100%', },
         }}
         noValidate
         autoComplete="off"
@@ -123,7 +123,8 @@ const handleSubmit = async (event) => {
         <div className="add-plant__container--first">
           <h2 className="add-plant__title">Add Plant</h2>
 
-          <TextField
+        <TextField
+            fullWidth
             id="outlined-required"
             label="Name or Strain"
             value={name}
@@ -151,7 +152,24 @@ const handleSubmit = async (event) => {
             {helperText}
           </FormHelperText>
         </div>
-        <div className='add-plant__radio-container'>
+      <div className='add-plant__radio-container'>
+               <div className="add-plant-container">
+            <FormControl>
+              <FormLabel id="color">Colour of Events</FormLabel>
+              <RadioGroup
+                aria-labelledby="color"
+                name="color"
+                value={color}
+                onChange={(event) => setColor(event.target.value)}
+              >
+                <FormControlLabel value="2" control={<Radio />} label={<div className="add-plant__color" style={{ backgroundColor: colors[2] }}></div>} />
+                <FormControlLabel value="6" control={<Radio />} label={<div className="add-plant__color" style={{ backgroundColor: colors[6] }}></div>} />
+                <FormControlLabel value="7" control={<Radio />} label={<div className="add-plant__color" style={{ backgroundColor: colors[7] }}></div>} />
+                <FormControlLabel value="3" control={<Radio />} label={<div className="add-plant__color" style={{ backgroundColor: colors[3] }}></div>} />
+                 <FormControlLabel value="1" control={<Radio />} label={<div className="add-plant__color" style={{ backgroundColor: colors[1] }}></div>} />
+              </RadioGroup>
+            </FormControl>
+          </div>  
           <div className="add-plant-container">
             <FormControl>
               <FormLabel id="stage-of-life">Stage of Life</FormLabel>
@@ -181,7 +199,7 @@ const handleSubmit = async (event) => {
           </div>
           <div className="add-plant-container">
             <FormControl>
-              <FormLabel id="growing-medium">Growing Medium</FormLabel>
+            <FormLabel id="growing-medium">Growing Medium</FormLabel>
               <RadioGroup
                 aria-labelledby="growing-medium"
                 name="growing-medium"
@@ -193,7 +211,9 @@ const handleSubmit = async (event) => {
                 <FormControlLabel value="Hydroponic" control={<Radio />} label="Hydroponic" />
               </RadioGroup>
             </FormControl>
-          </div>
+          </div>  
+        </div>
+        <div className='add-plant__radio-container'>            
           <div className="add-plant-container">
             <FormControl>
               <FormLabel id="growing-environment">Growing Environment</FormLabel>
@@ -223,30 +243,13 @@ const handleSubmit = async (event) => {
                 <FormControlLabel value="None" control={<Radio />} label="None" />
               </RadioGroup>
             </FormControl>
-          </div>
-          <div className="add-plant-container">
-            <FormControl>
-              <FormLabel id="color">Colour of Events</FormLabel>
-              <RadioGroup
-                aria-labelledby="color"
-                name="color"
-                value={color}
-                onChange={(event) => setColor(event.target.value)}
-              >
-                <FormControlLabel value="2" control={<Radio />} label={<div className="add-plant__color" style={{ backgroundColor: colors[2] }}></div>} />
-                <FormControlLabel value="6" control={<Radio />} label={<div className="add-plant__color" style={{ backgroundColor: colors[6] }}></div>} />
-                <FormControlLabel value="7" control={<Radio />} label={<div className="add-plant__color" style={{ backgroundColor: colors[7] }}></div>} />
-                <FormControlLabel value="3" control={<Radio />} label={<div className="add-plant__color" style={{ backgroundColor: colors[3] }}></div>} />
-                 <FormControlLabel value="1" control={<Radio />} label={<div className="add-plant__color" style={{ backgroundColor: colors[1] }}></div>} />
-              </RadioGroup>
-            </FormControl>
-          </div>
+          </div>    
+       
         </div>
         <div className='add-plant__button-container'>
           <Button text="GENERATE SCHEDULE" onClick={handleSubmit} />  
         </div>
       </Box>
-    </section>
   );
 };
 

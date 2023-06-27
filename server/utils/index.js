@@ -449,34 +449,34 @@ const floweringScheduleHydroponic =  {
 }
 
 
-const seedlingScheduleSoilArr = Object.values(seedlingScheduleSoil);
-const seedlingScheduleSoillessArr = Object.values(seedlingScheduleSoilless)
-const seedlingScheduleHydroponicArr = Object.values(seedlingScheduleHydroponic)
+const seedlingScheduleSoilFn = () => Object.values(seedlingScheduleSoil);
+const seedlingScheduleSoillessFn = () => Object.values(seedlingScheduleSoilless)
+const seedlingScheduleHydroponicFn = () => Object.values(seedlingScheduleHydroponic)
 
-const vegetativeScheduleSoilArr = Object.values(vegetativeScheduleSoil)
-const vegetativeScheduleSoillessArr = Object.values(vegetativeScheduleSoilless)
-const vegetativeScheduleHydroponicArr = Object.values(vegetativeScheduleHydroponic)
+const vegetativeScheduleSoilFn = () => Object.values(vegetativeScheduleSoil)
+const vegetativeScheduleSoillessFn = () => Object.values(vegetativeScheduleSoilless)
+const vegetativeScheduleHydroponicFn = () => Object.values(vegetativeScheduleHydroponic)
 
-const floweringScheduleSoilArr = Object.values(floweringScheduleSoil)
-const floweringScheduleSoillessArr = Object.values(floweringScheduleSoilless)
-const floweringScheduleHydroponicArr = Object.values(floweringScheduleHydroponic)
+const floweringScheduleSoilFn = () => Object.values(floweringScheduleSoil)
+const floweringScheduleSoillessFn = () => Object.values(floweringScheduleSoilless)
+const floweringScheduleHydroponicFn = () => Object.values(floweringScheduleHydroponic)
 
 
 const scheduleMap = {
   seedling: {
-    soil: () => seedlingScheduleSoilArr,
-    soilless: () => seedlingScheduleSoillessArr,
-    hydroponic: () => seedlingScheduleHydroponicArr,
+    soil: seedlingScheduleSoilFn,
+    soilless: seedlingScheduleSoillessFn,
+    hydroponic: seedlingScheduleHydroponicFn,
   },
   vegetative: {
-    soil: () => vegetativeScheduleSoilArr,
-    soilless: () => vegetativeScheduleSoillessArr,
-    hydroponic: () => vegetativeScheduleHydroponicArr,
+    soil: vegetativeScheduleSoilFn,
+    soilless: vegetativeScheduleSoillessFn,
+    hydroponic: vegetativeScheduleHydroponicFn,
   },
   flowering: {
-    soil: () => floweringScheduleSoilArr,
-    soilless: () => floweringScheduleSoillessArr,
-    hydroponic: () => floweringScheduleHydroponicArr,
+    soil: floweringScheduleSoilFn,
+    soilless: floweringScheduleSoillessFn,
+    hydroponic: floweringScheduleHydroponicFn,
   }
 }
 
@@ -513,6 +513,10 @@ const createEvents = (schedule, { stageOfLife, startTime, name, growingMedium, c
   return events.filter((event) => !!event)
 }
 
+function capitalize(str) {
+  return str[0].toUpperCase() + str.slice(1);
+}
+
 const createEvent = ({ startTime, startTimeIncrement, name, stageOfLife, growingMedium, eventType, color }) => {
   const time = startTime.split(/[- :]/);
   const eventStartTime = new Date(Date.UTC(time[0], time[1] - 1, time[2], time[3], time[4], time[5]));
@@ -522,7 +526,7 @@ const createEvent = ({ startTime, startTimeIncrement, name, stageOfLife, growing
   eventEndTime.setHours(eventEndTime.getHours() + 1)
 
   const event = {
-    summary: `Growmie: ${eventType} ${name}`,
+    summary: `Growmie: ${capitalize(eventType)} ${name}`,
     description: `Today you need to ${eventType} your plant ${name}, that has been tracked since ${stageOfLife} stage and is growing in ${growingMedium}.`,
     start: {
       dateTime: eventStartTime,
@@ -534,6 +538,7 @@ const createEvent = ({ startTime, startTimeIncrement, name, stageOfLife, growing
     },
     colorId: color,
   }
+  console.log('event', event.summary)
   return event
 }
 

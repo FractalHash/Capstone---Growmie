@@ -89,7 +89,6 @@ $borderW: 2px;
     background: #ffffff;
   }
 
-  // additional container created, because in FF blobs are breaking overflow:hidden of element with svg gooey filter
   &__blobs {
     position: relative;
     display: block;

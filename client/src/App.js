@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useSession } from "@supabase/auth-helpers-react";
-
 import Nav from "./components/Nav";
 import HomePage from "./pages/HomePage";
 import CalendarPage from "./pages/CalendarPage";
-import LoginPage from "./pages/LoginPage";
+import Login from "./components/Login";
 import PlantsPage from "./pages/PlantsPage";
 
 import "./App.scss";
@@ -13,6 +12,15 @@ import "./App.scss";
 const App = () => {
   const session = useSession({});
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   useEffect(() => {
     if (session?.provider_refresh_token) {
@@ -31,16 +39,14 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <Nav onLoginClick={openLoginModal} />
+      <Nav onLoginClick={openLoginModal} closeModal={closeModal} />
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<HomePage  isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} openModal={openModal} closeModal={closeModal}/>} />
         <Route path="/calendar" element={<CalendarPage />} />
         <Route path="/plants" element={<PlantsPage />} />
       </Routes>
       {isLoginModalOpen && (
-        <div className="login-modal" onClick={closeLoginModal}>
-          <LoginPage onClose={closeLoginModal} />
-        </div>  
+        <Login onClose={closeLoginModal} />
       )}
     </BrowserRouter>
   );

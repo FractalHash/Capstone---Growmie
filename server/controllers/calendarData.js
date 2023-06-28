@@ -42,17 +42,6 @@ const fetchCalendar = async (req, res) => {
 
 
     const events = response.data.items;
-    console.log(events)
-
-    // if (events.length) {
-    //   console.log('Upcoming events:');
-    //   events.forEach((event) => {
-    //     const start = event.start.dateTime || event.start.date;
-    //     console.log(`${start} - ${event.summary}`);
-    //   });
-    // } else {
-    //   console.log('No upcoming events found.');
-    // }
 
     return res.status(200).json(events);
   } catch (error) {
@@ -63,56 +52,11 @@ const fetchCalendar = async (req, res) => {
 
 
 
-// const eventStartTime = new Date()
-// eventStartTime.setDate(eventStartTime.getDay() + 27)
-
-// const eventEndTime = new Date()
-// eventEndTime.setDate(eventEndTime.getDay() + 27)
-// eventEndTime.setMinutes(eventEndTime.getMinutes() + 45)
-
-// const event = {
-//   summary: 'Test growmie event',
-//   location: '278A Queen St W, Toronto, ON M5V 2A1',
-//   description: 'Testing the growmie scheduler',
-//   start: {
-//     dateTime: eventStartTime,
-//     timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
-//   },
-//   end: {
-//     dateTime: eventEndTime,
-//     timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
-//   },
-//   colorId: 2,
-// }
-
-// calendar.freebusy.query(
-//   {
-//     resource: {
-//       timeMin: eventStartTime,
-//       timeMax: eventEndTime,
-//       timeZone: 'America/Toronto',
-//       items: [{ id: 'primary' }],
-//     },
-//   },
-//   (err, res) => {
-//   if (err) return console.error("Free Busy Query Error: ", err)
+const addUser = async (req, res) => {
   
-//   const eventsArr = res.data.calendars.primary.busy
-
-//   if (eventsArr.length === 0)
-//     return calendar.events.insert(
-//       { calendarId: 'primary', resource: event },
-//       err => {
-//         if (err) return console.error("Calendar event creation error: ", err)
-      
-//         return console.log("Calendar event created")
-//       }
-//     )
-//       return console.log("Sorry I'm busy")
-//   }
-// )
-
+}
 
 module.exports = {
-  fetchCalendar
+  fetchCalendar,
+  addUser
 };

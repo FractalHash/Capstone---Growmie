@@ -1,7 +1,10 @@
 import { NavLink } from "react-router-dom";
+import { useSession } from "@supabase/auth-helpers-react";
 import "./Nav.scss";
 
-const Nav = ({ onLoginClick }) => {
+const Nav = ({ onLoginClick, closeModal }) => {
+  const session = useSession();
+
   return (
     <nav className="nav">
       <NavLink to={"/"}>
@@ -18,8 +21,13 @@ const Nav = ({ onLoginClick }) => {
             Plants
           </li>
         </NavLink>
-        <li className="nav__link--login" onClick={onLoginClick}>
-          Login
+        <li className="nav__link--login" onClick={() => {
+          if (onLoginClick) {
+            onLoginClick();
+          }
+          closeModal();
+        }}>
+          {session?.user?.id ? "Logout" : "Login"}
         </li>
       </ul>
     </nav>   

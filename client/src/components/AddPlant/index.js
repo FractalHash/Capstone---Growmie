@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, } from 'react';
 import { useNavigate } from "react-router-dom"
 import axios from "axios";
 import Box from '@mui/material/Box';
@@ -14,9 +14,7 @@ import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { useSession } from '@supabase/auth-helpers-react';
-
 import  Button  from '../Button';
-
 import './AddPlant.scss';
 
 const colors = {
@@ -27,65 +25,41 @@ const colors = {
   1: "#7986cb" 
 }
 
-
-const AddPlant = () => {
+const AddPlant = ({ fetchPlants }) => {
   const [name, setName] = useState('');
   const [stageOfLife, setStageOfLife] = useState('');
   const [growingMedium, setGrowingMedium] = useState('');
   const [growingEnvironment, setGrowingEnvironment] = useState('');
   const [nutrients, setNutrients] = useState('');
   const [date, setDate] = useState(null);
-  const [time, setTime] = useState('');
+  const [time, setTime] = useState(null);
   const [helperText, setHelperText] = useState('');
   const [color, setColor] = useState("")
-  const navigate = useNavigate();
   const session = useSession();
 
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    if (
+      !name ||
+      !stageOfLife ||
+      !growingMedium ||
+      !growingEnvironment ||
+      !nutrients ||
+      !time ||
+      !date ||
+      !session ||
+      !color
+    ) {
+      setHelperText('Please fill in all fields and make sure you are logged in.');
+      return;
+    }
 
-// const googleCalendarDateFormat = (selectedDate) => {
-//   if (!selectedDate) {
-//     return '';
-//   }
-//   console.log('selectedDate', selectedDate)
-//   const year = selectedDate.getFullYear();
-//   const month = selectedDate.getMonth() + 1;
-//   const day = selectedDate.getDate();
-//   return `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-// };
+    date.setHours(time.getHours(), time.getMinutes(), 0)
+    console.log('startTime', date)
+    const startTime = date.toISOString().slice(0, 19).replace('T', ' ');
+    setHelperText('');
 
-// const googleCalendarTimeFormat = (time) => {
-//   if (!time) {
-//     return '';
-//   }
-//   const hours = String(time.getHours()).padStart(2, '0');
-//   const minutes = String(time.getMinutes()).padStart(2, '0');
-//   console.log('time', time)
-//   return `${hours}:${minutes}`;
-// };
-
-const handleSubmit = async (event) => {
-  event.preventDefault();
-  if (
-    !name ||
-    !stageOfLife ||
-    !growingMedium ||
-    !growingEnvironment ||
-    !nutrients ||
-    !time ||
-    !date ||
-    !session ||
-    !color
-  ) {
-    setHelperText('Please fill in all fields and make sure you are logged in.');
-    return;
-  }
-
-  date.setHours(time.getHours(), time.getMinutes(), 0)
-  console.log('startTime', date)
-  const startTime = date.toISOString().slice(0, 19).replace('T', ' ');
-  setHelperText('');
-
-  try {
+    try {
       const plantData = {
       name: name,
       stageOfLife: stageOfLife.toLowerCase(),
@@ -95,18 +69,24 @@ const handleSubmit = async (event) => {
       startTime: startTime,
       email: session.user.email,
       color: color
-    };
+      };
 
-    const result = await axios.post("http://localhost:8008/plants", plantData, { withCredentials: true });
-    console.log('result', result);
-    alert(`${name} Added!`)
-    navigate("/calendar")
+      const result = await axios.post("http://localhost:8008/plants", plantData, { withCredentials: true });
+      alert(`${name} Added!`)
+      setName("")
+      setStageOfLife("")
+      setGrowingEnvironment("")
+      setGrowingMedium("")
+      setNutrients("")
+      setTime(null)
+      setDate(null)
+      setColor("")
+      fetchPlants()
 
-  } catch (error) {
+    } catch (error) {
     console.error("Error adding plant", error)
     alert(`Sorry, Creating a schedule for ${name} failed. Please try again later.`)
   }
-
 };
 
   return (
@@ -114,7 +94,7 @@ const handleSubmit = async (event) => {
         className="add-plant"
         component="form"
         sx={{
-          '& .MuiTextField-root': {         width: 500,
+          '& .MuiTextField-root': { width: 500,
         maxWidth: '100%', },
         }}
         noValidate
@@ -140,11 +120,12 @@ const handleSubmit = async (event) => {
                 setDate(selectedDate);
               }}
             />
-            <TimePicker
+          <TimePicker
               label="Time of Grow Events"
+              value={time}
               onChange={(newTime) => {
               const selectedTime = new Date(newTime);
-              setTime(selectedTime);
+                setTime(selectedTime);
               }}
             />
           </LocalizationProvider>
@@ -244,7 +225,6 @@ const handleSubmit = async (event) => {
               </RadioGroup>
             </FormControl>
           </div>    
-       
         </div>
         <div className='add-plant__button-container'>
           <Button text="GENERATE SCHEDULE" onClick={handleSubmit} />  

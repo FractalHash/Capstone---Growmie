@@ -4,7 +4,7 @@
 
   &__main-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     flex-wrap: wrap;
     height: min-content;
     background-color: white;
@@ -18,18 +18,29 @@
 
   &__container {
     margin: 2rem;
-    border: 1px solid black;
-    height: min-content;
+    border: 2px solid black;
+    height: 28rem;
     width: 15rem;
     border-radius: 10px;
     text-align: center;
   }
 
   &__subtitle {
-    margin-top: 0.5rem;
-    border-bottom: 1px solid black;
+    padding: 1rem 0;
+    border-bottom: 2px solid black;
+    border-radius: 7px 7px 0 0;
+    font-size: 1.5rem;
   }
-}
-p {
-  margin: 1rem;
+
+  &__category {
+    color: black;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    margin-top: 0.5rem;
+  }
+
+  &__text {
+    margin-bottom: 1rem;
+    color: black;
+  }
 }

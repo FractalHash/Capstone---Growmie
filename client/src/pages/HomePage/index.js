@@ -2,16 +2,7 @@ import { useState } from "react";
 import Hero from "../../components/Hero";
 import HowToUse from "../../components/HowToUse";
 
-const HomePage = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
+const HomePage = ({ openModal,closeModal, setIsModalOpen, isModalOpen }) => {
 
   return (
     <main>

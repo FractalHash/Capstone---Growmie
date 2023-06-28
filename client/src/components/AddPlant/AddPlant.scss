@@ -45,14 +45,12 @@
 
     @include desktop {
       width: 20rem;
+      align-items: start;
     }
   }
 
   &__button-container {
     margin: 2rem 1rem 0 2rem;
-
-    @include desktop {
-    }
   }
 
   &__helper-text {

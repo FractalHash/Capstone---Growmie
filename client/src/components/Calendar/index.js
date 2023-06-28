@@ -11,8 +11,6 @@ import {
   Appointments,
   AppointmentTooltip,
   AppointmentForm,
-  DragDropProvider,
-  EditRecurrenceMenu,
   AllDayPanel,
   DateNavigator,
   TodayButton,
@@ -43,7 +41,7 @@ import SpeedIcon from '@mui/icons-material/Speed';
 import ContentCutIcon from '@mui/icons-material/ContentCut';
 import { blue, pink, orange, green, purple, red } from '@mui/material/colors';
 
-import "./TestCal.scss"
+import "./Calendar.scss"
 
 
 const IconComp = ({ title, fontSize = "large", paddingTop = "0.5rem" }) => {
@@ -57,28 +55,6 @@ const IconComp = ({ title, fontSize = "large", paddingTop = "0.5rem" }) => {
   
   return <Icon />
 }
-// import { makeStyles } from "@mui/styles";
-
-// const useStyles = makeStyles(theme => ({
-//   line: {
-//     height: "2px",
-//     width: "100%",
-//     transform: "translate(0, -1px)"
-//   },
-//   circle: {
-//     width: theme.spacing(1.5),
-//     height: theme.spacing(1.5),
-//     borderRadius: "50%",
-//     transform: "translate(-50%, -50%)"
-//   },
-//   nowIndicator: {
-//     position: "absolute",
-//     left: 0,
-//     top: ({ top }) => top,
-//     background: theme.palette.secondary.main,
-//     zIndex: 1
-//   }
-// }));
 
 const StyledDivIndicator = styled('div')(({ theme }) => ({
   [`& .line`]: {
@@ -334,7 +310,7 @@ const AppointmentFormContainerBasic = (props) => {
 }
 
 /* eslint-disable-next-line react/no-multi-comp */
-const Demo = ({ calendarData }) => {
+const Calendar = ({ calendarData }) => {
   const [data, setData] = useState([]);
   const [confirmationVisible, setConfirmationVisible] = useState(false);
   const [editingFormVisible, setEditingFormVisible] = useState(false);
@@ -362,7 +338,6 @@ const Demo = ({ calendarData }) => {
   }
 
   const AppointmentComponent = ({ children, style, ...restProps }) => {
-    // console.log('restProps', restProps)
     return <Appointments.Appointment
       {...restProps}
       style={{
@@ -371,42 +346,12 @@ const Demo = ({ calendarData }) => {
         borderRadius: '8px',
         display: 'flex',
         paddingTop: '0.5rem'
-        // alignItems: 'baseline'
       }}
     >
       <IconComp title={restProps.data.title} fontSize="small" paddingTop="0" />
       {children}
     </Appointments.Appointment>
   }
-
-  // const AppointmentForm = connectProps(AppointmentFormContainerBasic, () => {
-  //   const [data, setData] = useState(appointments);
-  //   const [editingFormVisible, setEditingFormVisible] = useState(false);
-  //   const [editingAppointment, setEditingAppointment] = useState();
-  //   const [addedAppointment, setAddedAppointment] = useState({});
-  //   const [isNewAppointment, setIsNewAppointment] = useState(false)
-  //   const [previousAppointment, setPreviousAppointment] = useState();
-
-  //   const currentAppointment = data
-  //     .filter(appointment => editingAppointment && appointment.id === editingAppointment.id)[0]
-  //     || addedAppointment;
-  //   const cancelAppointment = () => {
-  //     if (isNewAppointment) {
-  //       setEditingAppointment(previousAppointment)
-  //       setIsNewAppointment(false);
-  //     }
-  //   };
-
-  //   return {
-  //     visible: editingFormVisible,
-  //     appointmentData: currentAppointment,
-  //     cancelAppointment,
-  //   };
-  // });
-
-  // componentDidUpdate() {
-  //   this.appointmentForm.update();
-  // }
 
   const onEditingAppointmentChange = (editingAppointment) => {
     setEditingAppointment(editingAppointment)
@@ -463,12 +408,10 @@ const Demo = ({ calendarData }) => {
   };
   
   useEffect(() => {
-    console.log('indicatorRef', indicatorRef.current)
     if (indicatorRef) {
       indicatorRef.current.scrollIntoView({ block: "center" }); 
     }
   }, [indicatorRef]);
-  console.log('data', data)
 
   return (
     <Paper>
@@ -496,12 +439,9 @@ const Demo = ({ calendarData }) => {
           appointmentComponent={AppointmentComponent}
         />
         <AppointmentTooltip
-          // showOpenButton
           showCloseButton
-          // showDeleteButton
           headerComponent={HeaderComponent}
           contentComponent={(props) => {
-            console.log(props)
             return <AppointmentTooltip.Content {...props}>
               <div className='cal__description'>{props.appointmentData.description}</div>
             </AppointmentTooltip.Content>
@@ -512,16 +452,10 @@ const Demo = ({ calendarData }) => {
         <DateNavigator />
         <TodayButton />
         <ViewSwitcher />
-        {/* <AppointmentForm
-          overlayComponent={appointmentForm}
-          visible={editingFormVisible}
-          onVisibilityChange={toggleEditingFormVisibility}
-        /> */}
       </Scheduler>
 
       <Dialog
         open={confirmationVisible}
-        // onClose={cancelDelete}
       >
         <DialogTitle>
           Delete Appointment
@@ -532,15 +466,9 @@ const Demo = ({ calendarData }) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          {/* <Button onClick={toggleConfirmationVisible} color="primary" variant="outlined">
-            Cancel
-          </Button> */}
-          {/* <Button onClick={commitDeletedAppointment} color="secondary" variant="outlined">
-            Delete
-          </Button> */}
         </DialogActions>
       </Dialog>
     </Paper>
   );
 }
-export default Demo;
+export default Calendar;

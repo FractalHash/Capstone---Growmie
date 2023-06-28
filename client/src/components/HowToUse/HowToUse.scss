@@ -14,18 +14,23 @@
 
   @include tablet {
     width: 40rem;
-    top: 40%;
+    top: 50%;
   }
 
   @include desktop {
-    width: 60rem;
-    top: 47.5%;
+    width: 65rem;
+    height: 25rem;
+    top: 55%;
   }
 
   &__overlay {
     background-color: rgba($color: #000000, $alpha: 0.4);
     padding: 1rem;
     border-radius: 10px;
+
+    @include desktop {
+      height: 25rem;
+    }
   }
 
   &__title {
@@ -33,12 +38,17 @@
     text-shadow: $outline;
     font-size: 2.5rem;
     color: white;
+
+    @include desktop {
+      margin-bottom: 2rem;
+    }
   }
 
   &__text {
     text-shadow: $outline;
     font-size: 1.5rem;
     color: white;
+    font-weight: 500;
   }
 
   &__text-space {

@@ -80,7 +80,6 @@ const addPlant = async (req, res) => {
     const events = createEvents(schedule, { stageOfLife, startTime, name, growingMedium, color })
     const date = events[events.length - 1].start.dateTime
     const harvestDate = new Date(date).toISOString().slice(0, 19).replace('T', ' ');
-    // console.log('events', events)
     const plantRes = await db('plants').insert({
       name: name,
       stage_of_life: stageOfLife,
@@ -157,44 +156,6 @@ const deletePlant = async (req, res) => {
   }
 } 
 
-
-// const fetchCalendar = async (req, res) => {
-//   const { accessToken, refreshToken } = req.cookies;
-//   console.log(req.cookies)
-
-//   oAuth2Client.setCredentials({
-//     access_token: accessToken,
-//     refresh_token: refreshToken,
-//   });
-
-//   try {
-//     const response = await calendar.events.list({
-//       calendarId: 'primary',
-//       timeMin: timeMin,
-//       maxResults: 100,
-//       singleEvents: true,
-//       orderBy: 'startTime',
-//     });
-
-
-//     const events = response.data.items;
-
-//     if (events.length) {
-//       console.log('Upcoming events:');
-//       events.forEach((event) => {
-//         const start = event.start.dateTime || event.start.date;
-//         console.log(`${start} - ${event.summary}`);
-//       });
-//     } else {
-//       console.log('No upcoming events found.');
-//     }
-
-//     return res.status(200).json(events);
-//   } catch (error) {
-//     console.error('Error retrieving events:', error);
-//     return res.status(500).send('Failed to retrieve calendar events');
-//   }
-// };
 module.exports = {
   addPlant,
   fetchPlants,

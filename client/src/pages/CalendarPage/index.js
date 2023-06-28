@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useSession } from '@supabase/auth-helpers-react';
 import axios from "axios";
 
-import TestCal from "../../components/TestCal";
+import Calendar from "../../components/Calendar";
 
 import "./CalendarPage.scss"
 
@@ -46,7 +46,7 @@ const CalendarPage = () => {
   return (
     <main className="calendar-page">
       <section className="cal__container">
-        <TestCal calendarData={calendar} />
+        <Calendar calendarData={calendar} />
       </section>
     </main>
   )

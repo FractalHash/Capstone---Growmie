@@ -13,19 +13,3 @@ h2,
 p {
   color: #e1ad01;
 }
-
-.login-modal {
-  position: fixed;
-  top: 10%;
-  transform: translate(-50%, -50%);
-  border: 1px solid black;
-  border-radius: 10px;
-  z-index: 3;
-  background-color: lightgreen;
-
-  &__overlay {
-    background-color: rgba($color: #000000, $alpha: 0.4);
-    padding: 1rem;
-    border-radius: 10px;
-  }
-}

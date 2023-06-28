@@ -1,0 +1,46 @@
+.plants {
+  background-color: white;
+  height: 55vh;
+
+  &__main-container {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    height: min-content;
+    background-color: white;
+  }
+
+  &__title {
+    font-size: 3rem;
+    margin-left: 2rem;
+    margin-top: 1rem;
+  }
+
+  &__container {
+    margin: 2rem;
+    border: 2px solid black;
+    height: 28rem;
+    width: 15rem;
+    border-radius: 10px;
+    text-align: center;
+  }
+
+  &__subtitle {
+    padding: 1rem 0;
+    border-bottom: 2px solid black;
+    border-radius: 7px 7px 0 0;
+    font-size: 1.5rem;
+  }
+
+  &__category {
+    color: black;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    margin-top: 0.5rem;
+  }
+
+  &__text {
+    margin-bottom: 1rem;
+    color: black;
+  }
+}

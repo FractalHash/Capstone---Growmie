@@ -1,0 +1,545 @@
+// Raw Schedule Objects:
+
+const seedlingScheduleSoil = {
+  1: null,
+  2: "water",
+  3: null,
+  4: "water",
+  5: null,
+  6: null,
+  7: "water",
+  8: null,
+  9: "water",
+  10: "checkPH",
+  11: null,
+  12: "water",
+  13: null,
+  14: "water",
+  15: null,
+  16: null,
+  17: "water",
+  18: null,
+  19: "water",
+  20: "transplant"
+}
+
+const seedlingScheduleSoilless = {
+  1: null,
+  2: "water",
+  3: null,
+  4: "water",
+  5: null,
+  6: "feed",
+  7: null,
+  8: "water",
+  9: null,
+  10: "water",   
+  11: "checkPH",
+  12: "water",
+  13: null,
+  14: "feed",
+  15: null,
+  16: "water",
+  17: null,
+  18: "water",
+  19: null,
+  20: "transplant"
+}
+
+const seedlingScheduleHydroponic = {
+  1: null,
+  2: null,
+  3: "water",
+  4: null,
+  5: null,
+  6: "feedWater",
+  7: "checkPH",
+  8: null,
+  9: "water",
+  10: null,
+  11: null,
+  12: "feedWater",
+  13: "checkPH",
+  14: null,
+  15: null,
+  16: "water",
+  17: null,
+  18: null,
+  19: null,
+  20: "replaceResevoir"
+}
+
+const vegetativeScheduleSoil = {
+ 1: null,
+2: "water",
+3: null,
+4: null,
+5: "water",
+6: null,
+7: null,
+8: "feed",
+9: null,
+10: null,
+11: "water",
+12: null,
+13: null,
+14: "water",
+15: null,
+16: null,
+17: "feed",
+18: null,
+19: "transplant",
+20: "water",
+21: null,
+22: null,
+23: "water",
+24: null,
+25: null,
+26:"feed",
+27: null,
+28: null,
+29: "water",
+30: null,
+31: null,
+32: "water",
+33: null,
+34: null,
+35: "feed",
+36: null,
+37: null,
+38: "water",
+39: null,
+40: "transplant",
+41: "water",
+42: null,
+43: null,
+44: "water",
+45: null,
+46: null,
+47: "feed",
+48: "defoliate",
+49: null,
+50: "water"
+}
+
+const vegetativeScheduleSoilless = {
+1: "water",
+2: "feed",
+3:  null,
+4: "water",
+5: "feed",
+6:  null,
+7: "water",
+8: "feed",
+9: null,
+10: "water",
+11: "feed",
+12: null,
+13: "water",
+14: "feed",
+15: null,
+16: "water",
+17: "feed",
+18: null,
+19: "water",
+20: "transplant",
+21: "feed",
+22: null,
+23: "water",
+24: "feed",
+25: null,
+26: "water",
+27: "feed",
+28: null,
+29: "water",
+30: "feed",
+31: null,
+32: "water",
+33: "feed",
+34: null,
+35: "water",
+36: "feed",
+37: null,
+38: "water",
+39: "feed",
+40: "transplant",
+41: "water",
+42: null,
+43: "water",
+44: "feed",
+45: null,
+46: "water",
+47: "feed",
+48: null,
+49: "water",
+50: "defoliate"
+}
+
+const vegetativeScheduleHydroponic = {
+  1: null,
+  2: null,
+  3: "water",
+  4: "checkPH",
+  5: "feed",
+  6: null,
+  7: null,
+  8: "water",
+  9: null,
+  10: null,
+  11: "feed",
+  12: "checkPH",
+  13: null,
+  14: null,
+  15: "water",
+  16: null,
+  17: "feed",
+  18: "checkPH",
+  19: null,
+  20: null,
+  21: "replaceResevoir",
+  22: null,
+  23: null,
+  24: "water",
+  25: null,
+  26: "checkPH",
+  27: null,
+  28: "feed",
+  29: null,
+  30: null,
+  31: "water",
+  32: "checkPH",
+  33: null,
+  34: null,
+  35: "feed",
+  36: null,
+  37: "checkPH",
+  38: "water",
+  39: null,
+  40: null,
+  41: "replaceResevoir",
+  42: null,
+  43: null,
+  44: "water",
+  45: "checkPH",
+  46: null,
+  47: "feed",
+  48: null,
+  49: "defoliate",
+  50: "water"
+}
+
+const floweringScheduleSoil = {
+  1: null,
+  2: null,
+  3: "feed",
+  4: null,
+  5: null,
+  6: "water",
+  7: null,
+  8: null,
+  9: "feed",
+  10: "checkPH",
+  11: null, 
+  12: "water",
+  13: null,
+  14: null,
+  15: "feed",
+  16: null,
+  17: null,
+  18: "water",
+  19: null,
+  20: null,
+  21: "feed",
+  22: "defoliate",
+  23: null,
+  24: "water",
+  25: "checkPH",
+  26: null,
+  27: "feed",
+  28: null,
+  29: null,
+  30: "water",
+  31: null,
+  32: null,
+  33: "feed",
+  34: null,
+  35: null,
+  36: "water",
+  37: null,
+  38: null,
+  39: "feed",
+  40: null,
+  41: null,
+  42: "water",
+  43: "checkPH",
+  44: null,
+  45: "feed",
+  46: null,
+  47: "defoliate",
+  48: "water",
+  49: null,
+  50: null,
+  51: "feed",
+  52: null,
+  53: null,
+  54: "water",
+  55: null,
+  56: null,
+  57: "feed",
+  58: null,
+  59: null,
+  60: "water",
+  61: null,
+  62: null,
+  63: "water",
+  64: null,
+  65: null,
+  66: "water",
+  67: null,
+  68: null,
+  69: "water",
+  70: "harvest"
+}
+
+const floweringScheduleSoilless = {
+  1: "feed",
+  2: "water",
+  3: null,
+  4: "feed",
+  5: "water",
+  6: null,
+  7: "feed",
+  8: "water",
+  9: null,
+  10: "feed",
+  11: "water",
+  12: "defoliate",
+  13: "water",
+  14: null,
+  15: "feed",
+  16: "water",
+  17: null,
+  18: "feed",
+  19: "water",
+  20: null,
+  21: "feed",
+  22: "water",
+  23: null,
+  24: "feed",
+  25: "water",
+  26: null,
+  27: "feed",
+  28: "water",
+  29: null,
+  30: "feed",
+  31: "water",
+  32: "defoliate",
+  33: "feed",
+  34: "water",
+  35: null,
+  36: "feed",
+  37: "water",
+  38: null,
+  39: "feed",
+  40: "water",
+  41: null,
+  42: "feed",
+  43: "water",
+  44: null,
+  45: "feed",
+  46: "water",
+  47: null,
+  48: "feed",
+  49: "water",
+  50: "defoliate",
+  51: "feed",
+  52: "water",
+  53: null,
+  54: "feed",
+  55: "water",
+  56: null,
+  57: "feed",
+  58: "water",
+  59: null,
+  60: "feed",
+  61: "water",
+  62: null,
+  63: "feed",
+  64: "water",
+  65: null,
+  66: "feed",
+  67: "water",
+  68: null,
+  69: "feed",
+  70: "harvest"
+};
+
+const floweringScheduleHydroponic =  {
+1: "feed",
+2: null,
+3: "checkPH",
+4: "water",
+5: null,
+6: null,
+7: "feed",
+8: "checkPH",
+9:  null,
+10: "water",
+11: null,
+12: null,
+13: "replaceResevoir",
+14: null,
+15: null,
+16: "water",
+17: "checkPH",
+18: null,
+19: "feed",
+20: null,
+21: null,
+22: "water",
+23: "checkPH",
+24: null,
+25: "feed",
+26: null,
+27: "defoliate",
+28: "water",
+29: "checkPH",
+30: null,
+31: "feed",
+32: null,
+33: null,
+34: "replaceResevoir",
+35: null,
+36: null,
+37: "water",
+38: null,
+39: "checkPH",
+40: "feed",
+41: null,
+42: null,
+43: "water",
+44: null,
+45: "checkPH",
+46: "feed",
+47: null,
+48: "defoliate",
+49: "water",
+50: null,
+51: null,
+52: "feed",
+53: null,
+54: null,
+55: "replaceResevour",
+56: null,
+57: null,
+58: "water",
+59: "checkPH",
+60: null,
+61: "feed",
+62: null,
+63: null,
+64: "water",
+65:"checkPH",
+66: null,
+67: null,
+68: "water",
+69: null,
+70: "harvest"
+}
+
+
+const seedlingScheduleSoilFn = () => Object.values(seedlingScheduleSoil);
+const seedlingScheduleSoillessFn = () => Object.values(seedlingScheduleSoilless)
+const seedlingScheduleHydroponicFn = () => Object.values(seedlingScheduleHydroponic)
+
+const vegetativeScheduleSoilFn = () => Object.values(vegetativeScheduleSoil)
+const vegetativeScheduleSoillessFn = () => Object.values(vegetativeScheduleSoilless)
+const vegetativeScheduleHydroponicFn = () => Object.values(vegetativeScheduleHydroponic)
+
+const floweringScheduleSoilFn = () => Object.values(floweringScheduleSoil)
+const floweringScheduleSoillessFn = () => Object.values(floweringScheduleSoilless)
+const floweringScheduleHydroponicFn = () => Object.values(floweringScheduleHydroponic)
+
+
+const scheduleMap = {
+  seedling: {
+    soil: seedlingScheduleSoilFn,
+    soilless: seedlingScheduleSoillessFn,
+    hydroponic: seedlingScheduleHydroponicFn,
+  },
+  vegetative: {
+    soil: vegetativeScheduleSoilFn,
+    soilless: vegetativeScheduleSoillessFn,
+    hydroponic: vegetativeScheduleHydroponicFn,
+  },
+  flowering: {
+    soil: floweringScheduleSoilFn,
+    soilless: floweringScheduleSoillessFn,
+    hydroponic: floweringScheduleHydroponicFn,
+  }
+}
+
+const scheduleMaker = ({ stageOfLife, growingMedium }) => {
+  const scheduleFn = scheduleMap[stageOfLife][growingMedium]
+  const schedule = scheduleFn()
+
+  if (stageOfLife === "seedling") {
+    schedule.push(...scheduleMaker({ stageOfLife: "vegetative", growingMedium }))
+  } else if (stageOfLife === "vegetative") {
+    schedule.push(...scheduleMaker({ stageOfLife: "flowering", growingMedium }))
+  }
+
+  return schedule
+}
+
+const createEvents = (schedule, { stageOfLife, startTime, name, growingMedium, color }) => {
+  const events = schedule.map((eventType, index) => {
+    if (eventType) {
+      return createEvent({
+        startTime,
+        name,
+        stageOfLife,
+        growingMedium,
+        eventType,
+        color,
+        startTimeIncrement: index,
+      })
+    }
+  })
+
+  return events.filter((event) => !!event)
+}
+
+function capitalize(str) {
+  return str[0].toUpperCase() + str.slice(1);
+}
+
+const createEvent = ({ startTime, startTimeIncrement, name, stageOfLife, growingMedium, eventType, color }) => {
+  const time = startTime.split(/[- :]/);
+  const eventStartTime = new Date(Date.UTC(time[0], time[1] - 1, time[2], time[3], time[4], time[5]));
+  eventStartTime.setDate(eventStartTime.getDate() + startTimeIncrement)
+  const eventEndTime = new Date(Date.UTC(time[0], time[1] - 1, time[2], time[3], time[4], time[5]));
+  eventEndTime.setDate(eventEndTime.getDate() + startTimeIncrement)
+  eventEndTime.setHours(eventEndTime.getHours() + 1)
+
+  const event = {
+    summary: `Growmie: ${capitalize(eventType)} ${name}`,
+    description: `Today you need to ${eventType} your plant ${name}, that has been tracked since ${stageOfLife} stage and is growing in ${growingMedium}.`,
+    start: {
+      dateTime: eventStartTime,
+      timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
+    },
+    end: {
+      dateTime: eventEndTime,
+      timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
+    },
+    colorId: color,
+  }
+  console.log('event', event.summary)
+  return event
+}
+
+module.exports = {
+  scheduleMaker,
+  createEvents
+}

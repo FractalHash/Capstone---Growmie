@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Capstone - Calender</title>
+  <link href="./styles.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+      <nav class="nav">
+          <a href="./index.html"><img src="./assets/leaf-icon.png" class="nav__icon"></a>
+        <ul class="nav__link-container">
+          <li class="nav__link">
+            <a href="./calender.html">Calender</a>
+          </li>
+          <li class="nav__link">
+            <a href="#">Learn</a>
+          </li>
+          <li class="nav__link">
+            <a href="./login.html">Login</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <main class="calender">
+      <div class="calender__image">
+      </div>
+      <form class="calender__form">
+        <h2>Add a plant</h2>
+        <label for="plant-name">
+          <input type="text" placeholder="Please enter name or strain" id="plant-name">
+        </label>
+
+
+        <fieldset>
+          <legend>Stage of life</legend>
+        
+          <div>
+            <input type="radio" id="seedling" name="plant" value="seedling" checked>
+            <label for="seedling">Seedling</label>
+          </div>
+        
+          <div>
+            <input type="radio" id="vegetative" name="plant" value="vegetative">
+            <label for="vegetative">Vegetative</label>
+          </div>
+        
+          <div>
+            <input type="radio" id="flowering" name="plant" value="flowering">
+            <label for="flowering">Flowering</label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Growing Enviornment</legend>
+        
+          <div>
+            <input type="radio" id="indoor" name="enviornment" value="indoor" checked>
+            <label for="indoor">Indoor</label>
+          </div>
+        
+          <div>
+            <input type="radio" id="outdoor" name="enviornment" value="outdoor">
+            <label for="outdoor">Outdoor</label>
+          </div>
+        
+        </fieldset>
+
+        <fieldset>
+          <legend>Growing Medium</legend>
+        
+          <div>
+            <input type="radio" id="soil" name="soil" value="soil" checked>
+            <label for="soil">Soil</label>
+          </div>
+        
+          <div>
+            <input type="radio" id="hydroponic" name="hydroponic" value="hydroponic">
+            <label for="hydroponic">Hydroponic</label>
+          </div>
+
+          <div>
+            <input type="radio" id="aeroponic" name="aeroponic" value="aeroponic">
+            <label for="aeroponic">Aeroponic</label>
+          </div>
+
+          <div>
+            <input type="radio" id="soilless" name="soilless" value="soilless">
+            <label for="soilless">Soilless</label>
+          </div>
+        
+        </fieldset>
+
+
+        <label for="plant-select">
+          <select name="pets" id="pet-select">
+            <option value="">--Please choose an option--</option>
+            <option value="seedling">Seedling</option>
+            <option value="rooted-clone">Rooted Clone</option>
+            <option value="hamster">Hamster</option>
+            <option value="parrot">Parrot</option>
+            <option value="spider">Spider</option>
+            <option value="goldfish">Goldfish</option>
+          </select>
+        </label>
+      </form>
+    </main>
+</body>
+</html>

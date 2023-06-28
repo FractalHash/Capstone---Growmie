@@ -1,0 +1,15 @@
+@use "../src/styles/partials/variables" as *;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  font-family: "Quicksand", sans-serif;
+}
+section {
+  background-color: white;
+}
+
+h1,
+h2,
+p {
+  color: #e1ad01;
+}
